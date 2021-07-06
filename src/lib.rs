@@ -1,11 +1,13 @@
+use blsttc::{
+    ff::Field,
+    poly::{BivarPoly, Commitment, Poly},
+    serde_impl::SerdeSecret,
+    Ciphertext, DecryptionShare, Fr, PublicKey, PublicKeySet, SecretKey, SecretKeySet,
+    SecretKeyShare, Signature, SignatureShare,
+};
 use std::collections::BTreeMap;
-use wasm_bindgen::prelude::*;
-use threshold_crypto::{Ciphertext, DecryptionShare, Fr, PublicKey, PublicKeySet, SecretKey, SecretKeySet, SecretKeyShare, Signature, SignatureShare, poly::{
-    Poly,
-    BivarPoly,
-    Commitment,
-}, serde_impl::SerdeSecret, ff::Field};
 use std::str;
+use wasm_bindgen::prelude::*;
 
 const SK_SIZE: usize = 32;
 const PK_SIZE: usize = 48;
@@ -58,7 +60,8 @@ static mut BIVAR_PKS_BYTES: [u8; PK_SIZE * MAX_NODES] = [0; PK_SIZE * MAX_NODES]
 // Group signing variables
 static mut SIGNATURE_SHARE_BYTES: [u8; SIG_SIZE * MAX_NODES] = [0; SIG_SIZE * MAX_NODES];
 static mut SHARE_INDEXES: [usize; MAX_NODES] = [0; MAX_NODES];
-static mut DECRYPTION_SHARES_BYTES: [u8; DECRYPTION_SHARE_SIZE * MAX_NODES] = [0; DECRYPTION_SHARE_SIZE * MAX_NODES];
+static mut DECRYPTION_SHARES_BYTES: [u8; DECRYPTION_SHARE_SIZE * MAX_NODES] =
+    [0; DECRYPTION_SHARE_SIZE * MAX_NODES];
 
 #[wasm_bindgen]
 pub fn get_rng_values_size() -> usize {
@@ -78,9 +81,7 @@ pub fn set_sk_byte(i: usize, v: u8) {
 }
 #[wasm_bindgen]
 pub fn get_sk_byte(i: usize) -> u8 {
-    unsafe {
-        SK_BYTES[i]
-    }
+    unsafe { SK_BYTES[i] }
 }
 #[wasm_bindgen]
 pub fn set_pk_byte(i: usize, v: u8) {
@@ -90,9 +91,7 @@ pub fn set_pk_byte(i: usize, v: u8) {
 }
 #[wasm_bindgen]
 pub fn get_pk_byte(i: usize) -> u8 {
-    unsafe {
-        PK_BYTES[i]
-    }
+    unsafe { PK_BYTES[i] }
 }
 #[wasm_bindgen]
 pub fn set_sig_byte(i: usize, v: u8) {
@@ -102,9 +101,7 @@ pub fn set_sig_byte(i: usize, v: u8) {
 }
 #[wasm_bindgen]
 pub fn get_sig_byte(i: usize) -> u8 {
-    unsafe {
-        SIG_BYTES[i]
-    }
+    unsafe { SIG_BYTES[i] }
 }
 #[wasm_bindgen]
 pub fn set_msg_byte(i: usize, v: u8) {
@@ -114,9 +111,7 @@ pub fn set_msg_byte(i: usize, v: u8) {
 }
 #[wasm_bindgen]
 pub fn get_msg_byte(i: usize) -> u8 {
-    unsafe {
-        MSG_BYTES[i]
-    }
+    unsafe { MSG_BYTES[i] }
 }
 #[wasm_bindgen]
 pub fn set_ct_byte(i: usize, v: u8) {
@@ -126,15 +121,11 @@ pub fn set_ct_byte(i: usize, v: u8) {
 }
 #[wasm_bindgen]
 pub fn get_ct_byte(i: usize) -> u8 {
-    unsafe {
-        CT_BYTES[i]
-    }
+    unsafe { CT_BYTES[i] }
 }
 #[wasm_bindgen]
 pub fn get_rng_next_count() -> usize {
-    unsafe {
-        RNG_NEXT_COUNT
-    }
+    unsafe { RNG_NEXT_COUNT }
 }
 #[wasm_bindgen]
 pub fn set_poly_byte(i: usize, v: u8) {
@@ -144,9 +135,7 @@ pub fn set_poly_byte(i: usize, v: u8) {
 }
 #[wasm_bindgen]
 pub fn get_poly_byte(i: usize) -> u8 {
-    unsafe {
-        POLY_BYTES[i]
-    }
+    unsafe { POLY_BYTES[i] }
 }
 #[wasm_bindgen]
 pub fn set_msk_byte(i: usize, v: u8) {
@@ -156,9 +145,7 @@ pub fn set_msk_byte(i: usize, v: u8) {
 }
 #[wasm_bindgen]
 pub fn get_msk_byte(i: usize) -> u8 {
-    unsafe {
-        MSK_BYTES[i]
-    }
+    unsafe { MSK_BYTES[i] }
 }
 #[wasm_bindgen]
 pub fn set_mpk_byte(i: usize, v: u8) {
@@ -168,9 +155,7 @@ pub fn set_mpk_byte(i: usize, v: u8) {
 }
 #[wasm_bindgen]
 pub fn get_mpk_byte(i: usize) -> u8 {
-    unsafe {
-        MPK_BYTES[i]
-    }
+    unsafe { MPK_BYTES[i] }
 }
 #[wasm_bindgen]
 pub fn set_mc_byte(i: usize, v: u8) {
@@ -180,9 +165,7 @@ pub fn set_mc_byte(i: usize, v: u8) {
 }
 #[wasm_bindgen]
 pub fn get_mc_byte(i: usize) -> u8 {
-    unsafe {
-        MC_BYTES[i]
-    }
+    unsafe { MC_BYTES[i] }
 }
 #[wasm_bindgen]
 pub fn set_skshare_byte(i: usize, v: u8) {
@@ -192,9 +175,7 @@ pub fn set_skshare_byte(i: usize, v: u8) {
 }
 #[wasm_bindgen]
 pub fn get_skshare_byte(i: usize) -> u8 {
-    unsafe {
-        SKSHARE_BYTES[i]
-    }
+    unsafe { SKSHARE_BYTES[i] }
 }
 #[wasm_bindgen]
 pub fn set_pkshare_byte(i: usize, v: u8) {
@@ -204,9 +185,7 @@ pub fn set_pkshare_byte(i: usize, v: u8) {
 }
 #[wasm_bindgen]
 pub fn get_pkshare_byte(i: usize) -> u8 {
-    unsafe {
-        PKSHARE_BYTES[i]
-    }
+    unsafe { PKSHARE_BYTES[i] }
 }
 #[wasm_bindgen]
 pub fn set_bivar_row_byte(i: usize, from_node: usize, to_node: usize, v: u8) {
@@ -288,9 +267,7 @@ pub fn set_share_indexes(i: usize, v: usize) {
 }
 #[wasm_bindgen]
 pub fn get_share_indexes(i: usize) -> usize {
-    unsafe {
-        SHARE_INDEXES[i]
-    }
+    unsafe { SHARE_INDEXES[i] }
 }
 #[wasm_bindgen]
 pub fn set_decryption_shares_byte(i: usize, share_index: usize, v: u8) {
@@ -383,7 +360,7 @@ pub fn verify(msg_size: usize) -> bool {
     for i in 0..msg_size {
         msg.push(get_msg_byte(i));
     }
-    return pk.verify(&sig, msg)
+    return pk.verify(&sig, msg);
 }
 
 #[wasm_bindgen]
@@ -406,7 +383,7 @@ pub fn encrypt(msg_size: usize) -> usize {
     for i in 0..ct_vec.len() {
         set_ct_byte(i, ct_vec[i]);
     }
-    return ct_vec.len()
+    return ct_vec.len();
 }
 
 #[wasm_bindgen]
@@ -432,7 +409,7 @@ pub fn decrypt(ct_size: usize) -> usize {
     for i in 0..msg.len() {
         set_msg_byte(i, msg[i]);
     }
-    return msg.len()
+    return msg.len();
 }
 
 #[wasm_bindgen]
@@ -571,7 +548,7 @@ pub fn generate_bivars(threshold: usize, total_nodes: usize) {
         // Calculate the secret key parts to be shared with other nodes
         for to_node in 0..total_nodes {
             // row (secret part)
-            let row = bivar.row(to_node+1);
+            let row = bivar.row(to_node + 1);
             // add this to the secret key share for the to node
             secret_key_shares[to_node].add_assign(&row.evaluate(0));
             // record the row
@@ -680,11 +657,15 @@ pub fn create_decryption_share(share_index: usize, ct_size: usize) -> usize {
         set_decryption_shares_byte(i, share_index, dshare_bytes[i]);
     }
     // return decryption_share size
-    return dshare_bytes.len()
+    return dshare_bytes.len();
 }
 
 #[wasm_bindgen]
-pub fn combine_decryption_shares(total_decryption_shares: usize, commitment_size: usize, ct_size: usize) -> usize {
+pub fn combine_decryption_shares(
+    total_decryption_shares: usize,
+    commitment_size: usize,
+    ct_size: usize,
+) -> usize {
     // read each decryption share
     let mut dshares = BTreeMap::new();
     for share_index in 0..total_decryption_shares {
@@ -720,11 +701,11 @@ pub fn combine_decryption_shares(total_decryption_shares: usize, commitment_size
     for i in 0..msg.len() {
         set_msg_byte(i, msg[i]);
     }
-    return msg.len()
+    return msg.len();
 }
 
 // https://rust-random.github.io/rand/rand/trait.RngCore.html
-use rand_core::{RngCore, Error, impls};
+use rand_core::{impls, Error, RngCore};
 
 struct ExternalRng(u64);
 
@@ -738,7 +719,7 @@ impl RngCore for ExternalRng {
             let mut rng_value: u64 = 0;
             rng_value = rng_value + u64::from(RNG_VALUES[RNG_INDEX]);
             rng_value = rng_value << 32;
-            rng_value = rng_value + u64::from(RNG_VALUES[RNG_INDEX+1]);
+            rng_value = rng_value + u64::from(RNG_VALUES[RNG_INDEX + 1]);
             self.0 = rng_value;
             RNG_INDEX = (RNG_INDEX + 2) % RNG_VALUES.len();
             RNG_NEXT_COUNT = RNG_NEXT_COUNT + 1;

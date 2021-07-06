@@ -10,10 +10,11 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 
 wasm-bindgen = "0.2.63"
-threshold_crypto = { version = "0.4.0" }
+#threshold_crypto = { version = "0.4.0" } # replaced with blsttc
 bincode = "1.2.1"
-serde = { version = "1.0.104", features = ["derive"] }
+serde = { version="1.0.104", features=["derive"] }
 rand_core = "0.5.1"
+blsttc = "2.0.1"
 
 [profile.release]
 # Tell `rustc` to optimize for small code size.
