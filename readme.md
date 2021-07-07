@@ -1,7 +1,5 @@
 # How to build the project
 
-(Note from Chris when building on a mac) First, run export CC=`which cc` because by default wasm-pack will try to use clang and it can't find the stdlib.h library in clang for some reason.
-
 ```bash
 $ wasm-pack build --target=web; python convert.py
 ```
@@ -32,3 +30,8 @@ After every change you will need to rebuild the standalone html file.
 
 Once generated, bls-standalone.html (in the root of the repo) can be double
 clicked to open in your browser.
+
+```
+(Note from Chris when building on a mac) First, run export CC=`which cc` because by default wasm-pack will try to use clang and it can't find the stdlib.h library in clang for some reason.
+
+```
