@@ -1,0 +1,15 @@
+{
+  "name": "threshold_crypto_wasm_bridge",
+  "collaborators": [
+    "Ian Coleman"
+  ],
+  "version": "0.0.1",
+  "files": [
+    "threshold_crypto_wasm_bridge_bg.wasm",
+    "threshold_crypto_wasm_bridge.js",
+    "threshold_crypto_wasm_bridge.d.ts"
+  ],
+  "module": "threshold_crypto_wasm_bridge.js",
+  "types": "threshold_crypto_wasm_bridge.d.ts",
+  "sideEffects": false
+}
