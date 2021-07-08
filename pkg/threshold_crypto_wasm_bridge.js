@@ -1,4 +1,3 @@
-import * as __wbg_star0 from 'env';
 
 let wasm;
 
@@ -10,16 +9,11 @@ export function get_rng_values_size() {
     return ret >>> 0;
 }
 
-function _assertNum(n) {
-    if (typeof(n) !== 'number') throw new Error('expected a number argument');
-}
 /**
 * @param {number} i
 * @param {number} v
 */
 export function set_rng_value(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_rng_value(i, v);
 }
 
@@ -28,8 +22,6 @@ export function set_rng_value(i, v) {
 * @param {number} v
 */
 export function set_sk_byte(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_sk_byte(i, v);
 }
 
@@ -38,7 +30,6 @@ export function set_sk_byte(i, v) {
 * @returns {number}
 */
 export function get_sk_byte(i) {
-    _assertNum(i);
     var ret = wasm.get_sk_byte(i);
     return ret;
 }
@@ -48,8 +39,6 @@ export function get_sk_byte(i) {
 * @param {number} v
 */
 export function set_pk_byte(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_pk_byte(i, v);
 }
 
@@ -58,7 +47,6 @@ export function set_pk_byte(i, v) {
 * @returns {number}
 */
 export function get_pk_byte(i) {
-    _assertNum(i);
     var ret = wasm.get_pk_byte(i);
     return ret;
 }
@@ -68,8 +56,6 @@ export function get_pk_byte(i) {
 * @param {number} v
 */
 export function set_sig_byte(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_sig_byte(i, v);
 }
 
@@ -78,7 +64,6 @@ export function set_sig_byte(i, v) {
 * @returns {number}
 */
 export function get_sig_byte(i) {
-    _assertNum(i);
     var ret = wasm.get_sig_byte(i);
     return ret;
 }
@@ -88,8 +73,6 @@ export function get_sig_byte(i) {
 * @param {number} v
 */
 export function set_msg_byte(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_msg_byte(i, v);
 }
 
@@ -98,7 +81,6 @@ export function set_msg_byte(i, v) {
 * @returns {number}
 */
 export function get_msg_byte(i) {
-    _assertNum(i);
     var ret = wasm.get_msg_byte(i);
     return ret;
 }
@@ -108,8 +90,6 @@ export function get_msg_byte(i) {
 * @param {number} v
 */
 export function set_ct_byte(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_ct_byte(i, v);
 }
 
@@ -118,7 +98,6 @@ export function set_ct_byte(i, v) {
 * @returns {number}
 */
 export function get_ct_byte(i) {
-    _assertNum(i);
     var ret = wasm.get_ct_byte(i);
     return ret;
 }
@@ -136,8 +115,6 @@ export function get_rng_next_count() {
 * @param {number} v
 */
 export function set_poly_byte(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_poly_byte(i, v);
 }
 
@@ -146,7 +123,6 @@ export function set_poly_byte(i, v) {
 * @returns {number}
 */
 export function get_poly_byte(i) {
-    _assertNum(i);
     var ret = wasm.get_poly_byte(i);
     return ret;
 }
@@ -156,8 +132,6 @@ export function get_poly_byte(i) {
 * @param {number} v
 */
 export function set_msk_byte(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_msk_byte(i, v);
 }
 
@@ -166,7 +140,6 @@ export function set_msk_byte(i, v) {
 * @returns {number}
 */
 export function get_msk_byte(i) {
-    _assertNum(i);
     var ret = wasm.get_msk_byte(i);
     return ret;
 }
@@ -176,8 +149,6 @@ export function get_msk_byte(i) {
 * @param {number} v
 */
 export function set_mpk_byte(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_mpk_byte(i, v);
 }
 
@@ -186,7 +157,6 @@ export function set_mpk_byte(i, v) {
 * @returns {number}
 */
 export function get_mpk_byte(i) {
-    _assertNum(i);
     var ret = wasm.get_mpk_byte(i);
     return ret;
 }
@@ -196,8 +166,6 @@ export function get_mpk_byte(i) {
 * @param {number} v
 */
 export function set_mc_byte(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_mc_byte(i, v);
 }
 
@@ -206,7 +174,6 @@ export function set_mc_byte(i, v) {
 * @returns {number}
 */
 export function get_mc_byte(i) {
-    _assertNum(i);
     var ret = wasm.get_mc_byte(i);
     return ret;
 }
@@ -216,8 +183,6 @@ export function get_mc_byte(i) {
 * @param {number} v
 */
 export function set_skshare_byte(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_skshare_byte(i, v);
 }
 
@@ -226,7 +191,6 @@ export function set_skshare_byte(i, v) {
 * @returns {number}
 */
 export function get_skshare_byte(i) {
-    _assertNum(i);
     var ret = wasm.get_skshare_byte(i);
     return ret;
 }
@@ -236,8 +200,6 @@ export function get_skshare_byte(i) {
 * @param {number} v
 */
 export function set_pkshare_byte(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_pkshare_byte(i, v);
 }
 
@@ -246,7 +208,6 @@ export function set_pkshare_byte(i, v) {
 * @returns {number}
 */
 export function get_pkshare_byte(i) {
-    _assertNum(i);
     var ret = wasm.get_pkshare_byte(i);
     return ret;
 }
@@ -258,10 +219,6 @@ export function get_pkshare_byte(i) {
 * @param {number} v
 */
 export function set_bivar_row_byte(i, from_node, to_node, v) {
-    _assertNum(i);
-    _assertNum(from_node);
-    _assertNum(to_node);
-    _assertNum(v);
     wasm.set_bivar_row_byte(i, from_node, to_node, v);
 }
 
@@ -272,9 +229,6 @@ export function set_bivar_row_byte(i, from_node, to_node, v) {
 * @returns {number}
 */
 export function get_bivar_row_byte(i, from_node, to_node) {
-    _assertNum(i);
-    _assertNum(from_node);
-    _assertNum(to_node);
     var ret = wasm.get_bivar_row_byte(i, from_node, to_node);
     return ret;
 }
@@ -285,9 +239,6 @@ export function get_bivar_row_byte(i, from_node, to_node) {
 * @param {number} v
 */
 export function set_bivar_commitments_byte(i, from_node, v) {
-    _assertNum(i);
-    _assertNum(from_node);
-    _assertNum(v);
     wasm.set_bivar_commitments_byte(i, from_node, v);
 }
 
@@ -297,8 +248,6 @@ export function set_bivar_commitments_byte(i, from_node, v) {
 * @returns {number}
 */
 export function get_bivar_commitments_byte(i, from_node) {
-    _assertNum(i);
-    _assertNum(from_node);
     var ret = wasm.get_bivar_commitments_byte(i, from_node);
     return ret;
 }
@@ -309,9 +258,6 @@ export function get_bivar_commitments_byte(i, from_node) {
 * @param {number} v
 */
 export function set_bivar_sks_byte(i, node_index, v) {
-    _assertNum(i);
-    _assertNum(node_index);
-    _assertNum(v);
     wasm.set_bivar_sks_byte(i, node_index, v);
 }
 
@@ -321,8 +267,6 @@ export function set_bivar_sks_byte(i, node_index, v) {
 * @returns {number}
 */
 export function get_bivar_sks_byte(i, node_index) {
-    _assertNum(i);
-    _assertNum(node_index);
     var ret = wasm.get_bivar_sks_byte(i, node_index);
     return ret;
 }
@@ -333,9 +277,6 @@ export function get_bivar_sks_byte(i, node_index) {
 * @param {number} v
 */
 export function set_bivar_pks_byte(i, node_index, v) {
-    _assertNum(i);
-    _assertNum(node_index);
-    _assertNum(v);
     wasm.set_bivar_pks_byte(i, node_index, v);
 }
 
@@ -345,8 +286,6 @@ export function set_bivar_pks_byte(i, node_index, v) {
 * @returns {number}
 */
 export function get_bivar_pks_byte(i, node_index) {
-    _assertNum(i);
-    _assertNum(node_index);
     var ret = wasm.get_bivar_pks_byte(i, node_index);
     return ret;
 }
@@ -357,9 +296,6 @@ export function get_bivar_pks_byte(i, node_index) {
 * @param {number} v
 */
 export function set_signature_share_byte(i, sig_index, v) {
-    _assertNum(i);
-    _assertNum(sig_index);
-    _assertNum(v);
     wasm.set_signature_share_byte(i, sig_index, v);
 }
 
@@ -369,8 +305,6 @@ export function set_signature_share_byte(i, sig_index, v) {
 * @returns {number}
 */
 export function get_signature_share_byte(i, sig_index) {
-    _assertNum(i);
-    _assertNum(sig_index);
     var ret = wasm.get_signature_share_byte(i, sig_index);
     return ret;
 }
@@ -380,8 +314,6 @@ export function get_signature_share_byte(i, sig_index) {
 * @param {number} v
 */
 export function set_share_indexes(i, v) {
-    _assertNum(i);
-    _assertNum(v);
     wasm.set_share_indexes(i, v);
 }
 
@@ -390,7 +322,6 @@ export function set_share_indexes(i, v) {
 * @returns {number}
 */
 export function get_share_indexes(i) {
-    _assertNum(i);
     var ret = wasm.get_share_indexes(i);
     return ret >>> 0;
 }
@@ -401,9 +332,6 @@ export function get_share_indexes(i) {
 * @param {number} v
 */
 export function set_decryption_shares_byte(i, share_index, v) {
-    _assertNum(i);
-    _assertNum(share_index);
-    _assertNum(v);
     wasm.set_decryption_shares_byte(i, share_index, v);
 }
 
@@ -413,8 +341,6 @@ export function set_decryption_shares_byte(i, share_index, v) {
 * @returns {number}
 */
 export function get_decryption_shares_byte(i, share_index) {
-    _assertNum(i);
-    _assertNum(share_index);
     var ret = wasm.get_decryption_shares_byte(i, share_index);
     return ret;
 }
@@ -429,7 +355,6 @@ export function derive_pk_from_sk() {
 * @param {number} msg_size
 */
 export function sign_msg(msg_size) {
-    _assertNum(msg_size);
     wasm.sign_msg(msg_size);
 }
 
@@ -438,7 +363,6 @@ export function sign_msg(msg_size) {
 * @returns {boolean}
 */
 export function verify(msg_size) {
-    _assertNum(msg_size);
     var ret = wasm.verify(msg_size);
     return ret !== 0;
 }
@@ -448,7 +372,6 @@ export function verify(msg_size) {
 * @returns {number}
 */
 export function encrypt(msg_size) {
-    _assertNum(msg_size);
     var ret = wasm.encrypt(msg_size);
     return ret >>> 0;
 }
@@ -458,7 +381,6 @@ export function encrypt(msg_size) {
 * @returns {number}
 */
 export function decrypt(ct_size) {
-    _assertNum(ct_size);
     var ret = wasm.decrypt(ct_size);
     return ret >>> 0;
 }
@@ -467,7 +389,6 @@ export function decrypt(ct_size) {
 * @param {number} threshold
 */
 export function generate_poly(threshold) {
-    _assertNum(threshold);
     wasm.generate_poly(threshold);
 }
 
@@ -476,7 +397,6 @@ export function generate_poly(threshold) {
 * @returns {number}
 */
 export function get_poly_degree(poly_size) {
-    _assertNum(poly_size);
     var ret = wasm.get_poly_degree(poly_size);
     return ret >>> 0;
 }
@@ -486,7 +406,6 @@ export function get_poly_degree(poly_size) {
 * @returns {number}
 */
 export function get_mc_degree(mc_size) {
-    _assertNum(mc_size);
     var ret = wasm.get_mc_degree(mc_size);
     return ret >>> 0;
 }
@@ -495,7 +414,6 @@ export function get_mc_degree(mc_size) {
 * @param {number} poly_size
 */
 export function derive_master_key(poly_size) {
-    _assertNum(poly_size);
     wasm.derive_master_key(poly_size);
 }
 
@@ -504,8 +422,6 @@ export function derive_master_key(poly_size) {
 * @param {number} poly_size
 */
 export function derive_key_share(i, poly_size) {
-    _assertNum(i);
-    _assertNum(poly_size);
     wasm.derive_key_share(i, poly_size);
 }
 
@@ -514,8 +430,6 @@ export function derive_key_share(i, poly_size) {
 * @param {number} total_nodes
 */
 export function generate_bivars(threshold, total_nodes) {
-    _assertNum(threshold);
-    _assertNum(total_nodes);
     wasm.generate_bivars(threshold, total_nodes);
 }
 
@@ -524,8 +438,6 @@ export function generate_bivars(threshold, total_nodes) {
 * @param {number} commitment_size
 */
 export function combine_signature_shares(total_signatures, commitment_size) {
-    _assertNum(total_signatures);
-    _assertNum(commitment_size);
     wasm.combine_signature_shares(total_signatures, commitment_size);
 }
 
@@ -535,8 +447,6 @@ export function combine_signature_shares(total_signatures, commitment_size) {
 * @returns {number}
 */
 export function create_decryption_share(share_index, ct_size) {
-    _assertNum(share_index);
-    _assertNum(ct_size);
     var ret = wasm.create_decryption_share(share_index, ct_size);
     return ret >>> 0;
 }
@@ -548,9 +458,6 @@ export function create_decryption_share(share_index, ct_size) {
 * @returns {number}
 */
 export function combine_decryption_shares(total_decryption_shares, commitment_size, ct_size) {
-    _assertNum(total_decryption_shares);
-    _assertNum(commitment_size);
-    _assertNum(ct_size);
     var ret = wasm.combine_decryption_shares(total_decryption_shares, commitment_size, ct_size);
     return ret >>> 0;
 }
@@ -591,7 +498,7 @@ async function init(input) {
         input = new URL('threshold_crypto_wasm_bridge_bg.wasm', import.meta.url);
     }
     const imports = {};
-    imports['env'] = __wbg_star0;
+
 
     if (typeof input === 'string' || (typeof Request === 'function' && input instanceof Request) || (typeof URL === 'function' && input instanceof URL)) {
         input = fetch(input);
