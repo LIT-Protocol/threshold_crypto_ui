@@ -1,3 +1,7 @@
+# Fork notes
+
+This project was forked to work with the new blsttc library from maidsafe, which utilizes blst instead of threshold_crypto because it's faster.
+
 # How to build the project
 
 ```bash
@@ -16,7 +20,7 @@ to `html/js/index.js` under the `threshold_crypto wasm calls` section.
 If you change the rust, you need to update the standalone html file:
 
 ```
-$ wasm-pack build --target=web; python convert.py
+$ CC=emcc wasm-pack build --target=web; python convert.py
 ```
 
 If you only change the javascript or html or css, you can update the
@@ -31,7 +35,3 @@ After every change you will need to rebuild the standalone html file.
 Once generated, bls-standalone.html (in the root of the repo) can be double
 clicked to open in your browser.
 
-```
-(Note from Chris when building on a mac) First, run export CC=`which cc` because by default wasm-pack will try to use clang and it can't find the stdlib.h library in clang for some reason.
-
-```
