@@ -672,7 +672,7 @@ pub fn combine_decryption_shares(
     commitment_size: usize,
     ct_size: usize,
 ) -> usize {
-    console::log(format!(
+    console::log_1(format!(
         "combine_decryption_shares({},{},{})",
         total_decryption_shares, commitment_size, ct_size
     ));
@@ -711,11 +711,11 @@ pub fn combine_decryption_shares(
     let ct: Ciphertext = bincode::deserialize(&bincode_ct_vec).unwrap();
     // Combine decryption shares.
     // let pkset = PublicKeySet::from(mc);
-    console::log(format!("dshares: {:?}", dshares));
-    console::log(format!("ct: {:?}", ct));
-    console::log(format!("pkset: {:?}", pkset));
+    console::log_1(format!("dshares: {:?}", dshares));
+    console::log_1(format!("ct: {:?}", ct));
+    console::log_1(format!("pkset: {:?}", pkset));
     let msg = pkset.decrypt(&dshares, &ct).unwrap();
-    console::log(format!("decrypted message is {:?}", msg));
+    console::log_1(format!("decrypted message is {:?}", msg));
     // set message bytes
     for i in 0..msg.len() {
         set_msg_byte(i, msg[i]);
