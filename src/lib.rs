@@ -617,10 +617,15 @@ pub fn combine_signature_shares(total_signatures: usize, commitment_size: usize)
         let mc_byte = get_mc_byte(i);
         mc_bytes.push(mc_byte);
     }
-    let bincode_mc_bytes = big_endian_bytes_to_bincode_bytes(mc_bytes);
-    let mc: Commitment = bincode::deserialize(&bincode_mc_bytes).unwrap();
+    let bincode_pkset_bytes = big_endian_bytes_to_bincode_bytes(mc_bytes);
+    let pkset: PublicKeySet = bincode::deserialize(&bincode_pkset_bytes).unwrap();
+
+    // note from chris: This library used to operate directly on the master committment but i changed it to operate on the serialized public key set directly, as you can see above
+    // let bincode_mc_bytes = big_endian_bytes_to_bincode_bytes(mc_bytes);
+    // let mc: Commitment = bincode::deserialize(&bincode_mc_bytes).unwrap();
+
     // Combine signatures.
-    let pkset = PublicKeySet::from(mc);
+    // let pkset = PublicKeySet::from(mc);
     let combined = pkset.combine_signatures(&sigs).unwrap();
     // set signature bytes
     let combined_vec = combined.to_bytes().to_vec();
@@ -685,8 +690,13 @@ pub fn combine_decryption_shares(
         let mc_byte = get_mc_byte(i);
         mc_bytes.push(mc_byte);
     }
-    let bincode_mc_bytes = big_endian_bytes_to_bincode_bytes(mc_bytes);
-    let mc: Commitment = bincode::deserialize(&bincode_mc_bytes).unwrap();
+    let bincode_pkset_bytes = big_endian_bytes_to_bincode_bytes(mc_bytes);
+    let pkset: PublicKeySet = bincode::deserialize(&bincode_pkset_bytes).unwrap();
+
+    // note from chris: This library used to operate directly on the master committment but i changed it to operate on the serialized public key set directly, as you can see above
+    // let bincode_mc_bytes = big_endian_bytes_to_bincode_bytes(mc_bytes);
+    // let mc: Commitment = bincode::deserialize(&bincode_mc_bytes).unwrap();
+
     // create ct vec from input parameters
     let mut ct_vec = Vec::new();
     for i in 0..ct_size {
@@ -695,7 +705,7 @@ pub fn combine_decryption_shares(
     let bincode_ct_vec = big_endian_bytes_to_bincode_bytes(ct_vec);
     let ct: Ciphertext = bincode::deserialize(&bincode_ct_vec).unwrap();
     // Combine decryption shares.
-    let pkset = PublicKeySet::from(mc);
+    // let pkset = PublicKeySet::from(mc);
     let msg = pkset.decrypt(&dshares, &ct).unwrap();
     // set message bytes
     for i in 0..msg.len() {

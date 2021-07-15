@@ -118,9 +118,9 @@ scripts = [
     'js/constants.js',
     'js/convert.js',
     'js/encoding.js',
-    'js/orderd_share.js',
+    'js/ordered_share.js',
     'js/pako.min.js',
-    'js/was_helpers.js'
+    'js/wasm_helpers.js'
 ]
 
 for script in scripts:
