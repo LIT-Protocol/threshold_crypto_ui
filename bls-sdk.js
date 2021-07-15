@@ -407,7 +407,7 @@ async function load(module, imports) {
         }
 }
 
-async function init() {
+export async function initWasmBlsSdk() {
 var b = "";
 
 b+="eNrsvQt4XtdVIHre5/wv6bct27LkxzknTpHzaJXElp3EcXycOI7rpEnbtA1toWkbN8nvPPxqaS9"
@@ -2795,8 +2795,4 @@ b+="AxIqqQzqoUHrQZbV8JUK5kyfVVtOFKj/BSnrPh0="
     return wasm;
 }
 
-
-        init().then((exports) => {
-            window.wasmExports = exports;
-        });
 
