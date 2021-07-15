@@ -41,7 +41,7 @@ var b = "";
     const { instance, module } = await load(await input, imports);
 
     wasm = instance.exports;
-    init.__wbindgen_wasm_module = module;
+    initWasmBlsSdk.__wbindgen_wasm_module = module;
 
     return wasm;
 }
