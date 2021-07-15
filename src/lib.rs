@@ -8,6 +8,7 @@ use blsttc::{
 use std::collections::BTreeMap;
 use std::str;
 use wasm_bindgen::prelude::*;
+use web_sys::console;
 
 const SK_SIZE: usize = 32;
 const PK_SIZE: usize = 48;
@@ -671,6 +672,10 @@ pub fn combine_decryption_shares(
     commitment_size: usize,
     ct_size: usize,
 ) -> usize {
+    console::log(format!(
+        "combine_decryption_shares({},{},{})",
+        total_decryption_shares, commitment_size, ct_size
+    ));
     // read each decryption share
     let mut dshares = BTreeMap::new();
     for share_index in 0..total_decryption_shares {
@@ -706,7 +711,11 @@ pub fn combine_decryption_shares(
     let ct: Ciphertext = bincode::deserialize(&bincode_ct_vec).unwrap();
     // Combine decryption shares.
     // let pkset = PublicKeySet::from(mc);
+    console::log(format!("dshares: {:?}", dshares));
+    console::log(format!("ct: {:?}", ct));
+    console::log(format!("pkset: {:?}", pkset));
     let msg = pkset.decrypt(&dshares, &ct).unwrap();
+    console::log(format!("decrypted message is {:?}", msg));
     // set message bytes
     for i in 0..msg.len() {
         set_msg_byte(i, msg[i]);
