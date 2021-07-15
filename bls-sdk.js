@@ -603,9 +603,6 @@ this.combine_decryption_shares = function(totalShares, mcSize, ctSize) {
 })();
 
 
-let l,e,t ='script',p=/(from\s+|import\s+)['"](#[\w\-]+)['"]/g;
-let x='textContent',d=document, s,o;for(o of d.querySelectorAll(t+'[type=inline-module]'))l=d.createElement(t),o.id?l.id=o.id:0,l.type='module',l[x]=o[x].replace(p,(u,a,z)=>(e=d.querySelector(t+z+'[type=module][src]'))?a+`/* ${z} */'${e.src}'`:u),l.src=URL.createObjectURL(new Blob([l[x]],{type:'application/java'+t})),o.replaceWith(l)//inline
-
 
 let wasm;
 
