@@ -95,511 +95,301 @@ function base64ToUint8Array(b) {
     }));
 }
 
-let encoding = new (function() {
-
-    // manages the display of data as either
-    // hex
-    // bytes string
-    // ascii
-
-    let self = this;
-
-    this.binaryEncoding = "hex";
-    this.messageEncoding = "ascii";
-
-    let binaryHex = document.getElementById("binary-hex");
-    let binaryBytes = document.getElementById("binary-bytes");
-    let messageAscii = document.getElementById("message-ascii");
-    let messageHex = document.getElementById("message-hex");
-    let messageBytes = document.getElementById("message-bytes");
-
-    let binaryInputs = document.querySelectorAll("[data-encoding-type='binary']");
-    let messageInputs = document.querySelectorAll("[data-encoding-type='message']");
-
-    binaryHex.addEventListener("click", changeBinaryEncoding);
-    binaryBytes.addEventListener("click", changeBinaryEncoding);
-    messageAscii.addEventListener("click", changeMessageEncoding);
-    messageHex.addEventListener("click", changeMessageEncoding);
-    messageBytes.addEventListener("click", changeMessageEncoding);
-
-    function changeBinaryEncoding(e) {
-        let newEncoding = e.target.value;
-        if (self.binaryEncoding == "bytes") {
-            if (newEncoding == "hex") {
-                for (let i=0; i<binaryInputs.length; i++) {
-                    let input = binaryInputs[i];
-                    let byteStr = input.value;
-                    let bytes = JSON.parse(byteStr);
-                    let hex = uint8ArrayToHex(bytes);
-                    input.value = hex;
-                }
-            }
-        }
-        else if (self.binaryEncoding == "hex") {
-            if (newEncoding == "bytes") {
-                for (let i=0; i<binaryInputs.length; i++) {
-                    let input = binaryInputs[i];
-                    let hex = input.value;
-                    let bytes = hexToUint8Array(hex);
-                    let byteStr = uint8ArrayToByteStr(bytes);
-                    input.value = byteStr;
-                }
-            }
-        }
-        self.binaryEncoding = newEncoding;
-    }
-
-    function changeMessageEncoding(e) {
-        let newEncoding = e.target.value;
-        if (self.messageEncoding == "ascii") {
-            if (newEncoding == "hex") {
-                for (let i=0; i<messageInputs.length; i++) {
-                    let input = messageInputs[i];
-                    let ascii = input.value;
-                    let bytes = asciiToUint8Array(ascii);
-                    let hex = uint8ArrayToHex(bytes);
-                    input.value = hex;
-                }
-            }
-            else if (newEncoding == "bytes") {
-                for (let i=0; i<messageInputs.length; i++) {
-                    let input = messageInputs[i];
-                    let ascii = input.value;
-                    let bytes = asciiToUint8Array(ascii);
-                    let byteStr = uint8ArrayToByteStr(bytes);
-                    input.value = byteStr;
-                }
-            }
-        }
-        if (self.messageEncoding == "hex") {
-            if (newEncoding == "ascii") {
-                for (let i=0; i<messageInputs.length; i++) {
-                    let input = messageInputs[i];
-                    let hex = input.value;
-                    let bytes = hexToUint8Array(hex);
-                    let ascii = uint8ArrayToAscii(bytes);
-                    input.value = ascii;
-                }
-            }
-            else if (newEncoding == "bytes") {
-                for (let i=0; i<messageInputs.length; i++) {
-                    let input = messageInputs[i];
-                    let hex = input.value;
-                    let bytes = hexToUint8Array(hex);
-                    let byteStr = uint8ArrayToByteStr(bytes);
-                    input.value = byteStr;
-                }
-            }
-        }
-        else if (self.messageEncoding == "bytes") {
-            if (newEncoding == "ascii") {
-                for (let i=0; i<messageInputs.length; i++) {
-                    let input = messageInputs[i];
-                    let byteStr = input.value;
-                    let bytes = JSON.parse(byteStr);
-                    let ascii = uint8ArrayToAscii(bytes);
-                    input.value = ascii;
-                }
-            }
-            else if (newEncoding == "hex") {
-                for (let i=0; i<messageInputs.length; i++) {
-                    let input = messageInputs[i];
-                    let byteStr = input.value;
-                    let bytes = JSON.parse(byteStr);
-                    let hex = uint8ArrayToHex(bytes);
-                    input.value = hex;
-                }
-            }
-        }
-        self.messageEncoding = newEncoding;
-    }
-
-    this.parseValue = function(el) {
-        let value = el.value;
-        let bytes = [];
-        let encoding = el.getAttribute("data-encoding-type");
-        if (encoding == "binary") {
-            if (self.binaryEncoding == "hex") {
-                bytes = hexToUint8Array(value);
-            }
-            else if (self.binaryEncoding == "bytes") {
-                bytes = JSON.parse(value);
-            }
-        }
-        else if (encoding == "message") {
-            if (self.messageEncoding == "ascii") {
-                bytes = asciiToUint8Array(value);
-            }
-            else if (self.messageEncoding == "hex") {
-                bytes = hexToUint8Array(value);
-            }
-            else if (self.messageEncoding == "bytes") {
-                bytes = JSON.parse(value);
-            }
-        }
-        else {
-            console.log("Unknown data-encoding-type for el");
-            console.log(el);
-        }
-        return bytes;
-    }
-
-    this.updateElWithBytes = function(el, bytes) {
-        let value = "";
-        let encoding = el.getAttribute("data-encoding-type");
-        if (encoding == "binary") {
-            if (self.binaryEncoding == "hex") {
-                value = uint8ArrayToHex(bytes);
-            }
-            else if (self.binaryEncoding == "bytes") {
-                value = uint8ArrayToByteStr(bytes);
-            }
-        }
-        else if (encoding == "message") {
-            if (self.messageEncoding == "ascii") {
-                value = uint8ArrayToAscii(bytes);
-            }
-            else if (self.messageEncoding == "hex") {
-                value = uint8ArrayToHex(bytes);
-            }
-            else if (self.messageEncoding == "bytes") {
-                value = uint8ArrayToByteStr(bytes);
-            }
-        }
-        else {
-            console.log("Unknown data-encoding-type for el");
-            console.log(el);
-        }
-        el.value = value;
-    }
-
-})();
-
-OrderedShare = function(shareIndex, shareHex) {
-
-    let self = this;
-
-    self.shareIndex = shareIndex;
-    self.shareHex = shareHex;
-
-    this.toString = function() {
-        return self.shareIndex + ":" + self.shareHex;
-    }
-
-    this.fromString = function(s) {
-        let bits = s.split(":");
-        if (bits.length != 2) {
-            throw("Invalid OrderedShare format, must be 'i:s'");
-        }
-        self.shareIndex = parseInt(bits[0]);
-        self.shareHex = bits[1];
-    }
-
-}
-
 // threshold_crypto wasm calls. Since they operate on single bytes at a time
 // it's handy to have helpers to do the required looping.
 
-let isWasming = false;
+let isWasming = false
+export const wasmBlsSdkHelpers = new function () {
+    // s is secret key unit8array
+    this.sk_bytes_to_pk_bytes = function (s) {
+        isWasming = true
+        const pkBytes = []
+        try {
+            // set sk bytes
+            for (let i = 0; i < s.length; i++) {
+                wasmExports.set_sk_byte(i, s[i])
+            }
+            // convert into pk bytes
+            wasmExports.derive_pk_from_sk()
+            // read pk bytes
+            for (let i = 0; i < pkLen; i++) {
+                const pkByte = wasmExports.get_pk_byte(i)
+                pkBytes.push(pkByte)
+            }
+        } catch (e) {
+            isWasming = false
+            throw ('Failed to generate')
+        }
+        isWasming = false
+        return pkBytes
+    }
 
-let wasmHelpers = new (function() {
+    // s is secret key uint8array
+    // m is message uint8array
+    this.sign_msg = function (s, m) {
+        isWasming = true
+        const sigBytes = []
+        try {
+            // set secret key bytes
+            for (let i = 0; i < s.length; i++) {
+                wasmExports.set_sk_byte(i, s[i])
+            }
+            // set message bytes
+            for (let i = 0; i < m.length; i++) {
+                wasmExports.set_msg_byte(i, m[i])
+            }
+            // sign message
+            wasmExports.sign_msg(m.length)
+            // get signature bytes
+            for (let i = 0; i < sigLen; i++) {
+                const sigByte = wasmExports.get_sig_byte(i)
+                sigBytes.push(sigByte)
+            }
+        } catch (e) {
+            isWasming = false
+        }
+        isWasming = false
+        return sigBytes
+    }
 
-// s is secret key unit8array
-this.sk_bytes_to_pk_bytes = function(s) {
-    isWasming = true;
-    let pkBytes = [];
-    try {
-        // set sk bytes
-        for (let i=0; i<s.length; i++) {
-            wasmExports.set_sk_byte(i, s[i]);
+    // p is public key uint8array
+    // s is signature uint8array
+    // m is message uint8array
+    this.verify = function (p, s, m) {
+        isWasming = true
+        let verified = false
+        try {
+            // set public key bytes
+            for (let i = 0; i < p.length; i++) {
+                wasmExports.set_pk_byte(i, p[i])
+            }
+            // set signature bytes
+            for (let i = 0; i < s.length; i++) {
+                wasmExports.set_sig_byte(i, s[i])
+            }
+            // set message bytes
+            for (let i = 0; i < m.length; i++) {
+                wasmExports.set_msg_byte(i, m[i])
+            }
+            verified = wasmExports.verify(m.length)
+        } catch (e) {
+            isWasming = false
         }
-        // convert into pk bytes
-        wasmExports.derive_pk_from_sk();
-        // read pk bytes
-        for (let i=0; i<pkLen; i++) {
-            let pkByte = wasmExports.get_pk_byte(i);
-            pkBytes.push(pkByte);
-        }
+        isWasming = false
+        return verified
     }
-    catch (e) {
-        isWasming = false;
-        throw("Failed to generate");
-    }
-    isWasming = false;
-    return pkBytes;
-}
 
-// s is secret key uint8array
-// m is message uint8array
-this.sign_msg = function(s, m) {
-    isWasming = true;
-    let sigBytes = [];
-    try {
-        // set secret key bytes
-        for (let i=0; i<s.length; i++) {
-            wasmExports.set_sk_byte(i, s[i]);
+    this.set_rng_values = function () {
+        // Warning if no window.crypto available
+        if (!window.crypto) {
+            alert('Secure randomness not available in this browser, output is insecure.')
+            return
         }
-        // set message bytes
-        for (let i=0; i<m.length; i++) {
-            wasmExports.set_msg_byte(i, m[i]);
-        }
-        // sign message
-        wasmExports.sign_msg(m.length);
-        // get signature bytes
-        for (let i=0; i<sigLen; i++) {
-            let sigByte = wasmExports.get_sig_byte(i);
-            sigBytes.push(sigByte);
-        }
-    }
-    catch (e) {
-        isWasming = false;
-    }
-    isWasming = false;
-    return sigBytes;
-}
-
-// p is public key uint8array
-// s is signature uint8array
-// m is message uint8array
-this.verify = function(p, s, m) {
-    isWasming = true;
-    let verified = false;
-    try {
-        // set public key bytes
-        for (let i=0; i<p.length; i++) {
-            wasmExports.set_pk_byte(i, p[i]);
-        }
-        // set signature bytes
-        for (let i=0; i<s.length; i++) {
-            wasmExports.set_sig_byte(i, s[i]);
-        }
-        // set message bytes
-        for (let i=0; i<m.length; i++) {
-            wasmExports.set_msg_byte(i, m[i]);
-        }
-        verified = wasmExports.verify(m.length);
-    }
-    catch (e) {
-        isWasming = false;
-    }
-    isWasming = false;
-    return verified;
-}
-
-this.set_rng_values = function() {
-    // Warning if no window.crypto available
-    if (!window.crypto) {
-        alert("Secure randomness not available in this browser, output is insecure.");
-        return
-    }
-    let RNG_VALUES_SIZE = wasmExports.get_rng_values_size();
-    let rngValues = new Uint32Array(RNG_VALUES_SIZE);
-    window.crypto.getRandomValues(rngValues);
-    for (let i=0; i<rngValues.length; i++) {
-        wasmExports.set_rng_value(i, rngValues[i]);
-    }
-}
-
-// p is public key uint8array
-// m is message uint8array
-this.encrypt = function(p, m) {
-    isWasming = true;
-    let ctBytes = [];
-    try {
-        wasmHelpers.set_rng_values();
-        // set public key bytes
-        for (let i=0; i<p.length; i++) {
-            wasmExports.set_pk_byte(i, p[i]);
-        }
-        // set message bytes
-        for (let i=0; i<m.length; i++) {
-            wasmExports.set_msg_byte(i, m[i]);
-        }
-        // generate strong random u64 used by encrypt
-        // encrypt the message
-        let ctSize = wasmExports.encrypt(m.length);
-        // get ciphertext bytes
-        for (let i=0; i<ctSize; i++) {
-            let ctByte = wasmExports.get_ct_byte(i);
-            ctBytes.push(ctByte);
+        const RNG_VALUES_SIZE = wasmExports.get_rng_values_size()
+        const rngValues = new Uint32Array(RNG_VALUES_SIZE)
+        window.crypto.getRandomValues(rngValues)
+        for (let i = 0; i < rngValues.length; i++) {
+            wasmExports.set_rng_value(i, rngValues[i])
         }
     }
-    catch (e) {
-        isWasming = false;
-    }
-    isWasming = false;
-    return ctBytes;
-}
 
-// s is secret key uint8array
-// c is message uint8array
-this.decrypt = function(s, c) {
-    isWasming = true;
-    let msgBytes = [];
-    try {
-        // set secret key bytes
-        for (let i=0; i<s.length; i++) {
-            wasmExports.set_sk_byte(i, s[i]);
+    // p is public key uint8array
+    // m is message uint8array
+    this.encrypt = function (p, m) {
+        isWasming = true
+        const ctBytes = []
+        try {
+            wasmBlsSdkHelpers.set_rng_values()
+            // set public key bytes
+            for (let i = 0; i < p.length; i++) {
+                wasmExports.set_pk_byte(i, p[i])
+            }
+            // set message bytes
+            for (let i = 0; i < m.length; i++) {
+                wasmExports.set_msg_byte(i, m[i])
+            }
+            // generate strong random u64 used by encrypt
+            // encrypt the message
+            const ctSize = wasmExports.encrypt(m.length)
+            // get ciphertext bytes
+            for (let i = 0; i < ctSize; i++) {
+                const ctByte = wasmExports.get_ct_byte(i)
+                ctBytes.push(ctByte)
+            }
+        } catch (e) {
+            isWasming = false
         }
-        // set ciphertext bytes
-        for (let i=0; i<c.length; i++) {
-            wasmExports.set_ct_byte(i, c[i]);
+        isWasming = false
+        return ctBytes
+    }
+
+    // s is secret key uint8array
+    // c is message uint8array
+    this.decrypt = function (s, c) {
+        isWasming = true
+        const msgBytes = []
+        try {
+            // set secret key bytes
+            for (let i = 0; i < s.length; i++) {
+                wasmExports.set_sk_byte(i, s[i])
+            }
+            // set ciphertext bytes
+            for (let i = 0; i < c.length; i++) {
+                wasmExports.set_ct_byte(i, c[i])
+            }
+            const msgSize = wasmExports.decrypt(c.length)
+            // get message bytes
+            for (let i = 0; i < msgSize; i++) {
+                const msgByte = wasmExports.get_msg_byte(i)
+                msgBytes.push(msgByte)
+            }
+        } catch (e) {
+            isWasming = false
         }
-        let msgSize = wasmExports.decrypt(c.length);
-        // get message bytes
-        for (let i=0; i<msgSize; i++) {
-            let msgByte = wasmExports.get_msg_byte(i);
-            msgBytes.push(msgByte);
+        isWasming = false
+        return msgBytes
+    }
+
+    this.generate_poly = function (threshold) {
+        wasmBlsSdkHelpers.set_rng_values()
+        const polySize = poly_sizes_by_threshold[threshold]
+        wasmExports.generate_poly(threshold)
+        const polyBytes = []
+        for (let i = 0; i < polySize; i++) {
+            const polyByte = wasmExports.get_poly_byte(i)
+            polyBytes.push(polyByte)
         }
+        return polyBytes
     }
-    catch (e) {
-        isWasming = false;
-    }
-    isWasming = false;
-    return msgBytes;
-}
 
-this.generate_poly = function(threshold) {
-    wasmHelpers.set_rng_values();
-    let polySize = poly_sizes_by_threshold[threshold];
-    wasmExports.generate_poly(threshold);
-    let polyBytes = [];
-    for (let i=0; i<polySize; i++) {
-        let polyByte = wasmExports.get_poly_byte(i);
-        polyBytes.push(polyByte);
+    this.get_msk_bytes = function () {
+        const mskBytes = []
+        for (let i = 0; i < skLen; i++) {
+            const mskByte = wasmExports.get_msk_byte(i)
+            mskBytes.push(mskByte)
+        }
+        return mskBytes
     }
-    return polyBytes;
-}
 
-this.get_msk_bytes = function() {
-    let mskBytes = [];
-    for (let i=0; i<skLen; i++) {
-        let mskByte = wasmExports.get_msk_byte(i);
-        mskBytes.push(mskByte);
+    this.get_mpk_bytes = function () {
+        const mpkBytes = []
+        for (let i = 0; i < pkLen; i++) {
+            const mpkByte = wasmExports.get_mpk_byte(i)
+            mpkBytes.push(mpkByte)
+        }
+        return mpkBytes
     }
-    return mskBytes;
-}
 
-this.get_mpk_bytes = function() {
-    let mpkBytes = [];
-    for (let i=0; i<pkLen; i++) {
-        let mpkByte = wasmExports.get_mpk_byte(i);
-        mpkBytes.push(mpkByte);
+    this.get_mc_bytes = function (threshold) {
+        const mcBytes = []
+        const mcSize = commitment_sizes_by_threshold[threshold]
+        for (let i = 0; i < mcSize; i++) {
+            const mcByte = wasmExports.get_mc_byte(i)
+            mcBytes.push(mcByte)
+        }
+        return mcBytes
     }
-    return mpkBytes;
-}
 
-this.get_mc_bytes = function(threshold) {
-    let mcBytes = [];
-    let mcSize = commitment_sizes_by_threshold[threshold];
-    for (let i=0; i<mcSize; i++) {
-        let mcByte = wasmExports.get_mc_byte(i);
-        mcBytes.push(mcByte);
-    }
-    return mcBytes;
-}
-
-this.set_mc_bytes = function(mcBytes) {
-    // set master commitment in wasm
-    for (let i=0; i<mcBytes.length; i++) {
-        let v = mcBytes[i];
-        wasmExports.set_mc_byte(i, v);
-    }
-}
-
-this.get_skshare = function() {
-    let skshareBytes = [];
-    for (let i=0; i<skLen; i++) {
-        let skshareByte = wasmExports.get_skshare_byte(i);
-        skshareBytes.push(skshareByte);
-    }
-    return skshareBytes;
-}
-
-this.get_pkshare = function() {
-    let pkshareBytes = [];
-    for (let i=0; i<pkLen; i++) {
-        let pkshareByte = wasmExports.get_pkshare_byte(i);
-        pkshareBytes.push(pkshareByte);
-    }
-    return pkshareBytes;
-}
-
-this.combine_signatures = function(mcBytes, sigshares) {
-    // set master commitment in wasm
-    wasmHelpers.set_mc_bytes(mcBytes);
-    // set the signature shares
-    for (let shareIndex=0; shareIndex<sigshares.length; shareIndex++) {
-        let share = sigshares[shareIndex];
-        let sigHex = share.shareHex;
-        let sigBytes = hexToUint8Array(sigHex);
-        let sigIndex = share.shareIndex;
-        for (let byteIndex=0; byteIndex<sigBytes.length; byteIndex++) {
-            let sigByte = sigBytes[byteIndex];
-            // NB shareIndex is used instead of sigIndex so we can interate
-            // over both
-            // SHARE_INDEXES[i]
-            // and
-            // SIGNATURE_SHARE_BYTES[i*96:(i+1)*96]
-            wasmExports.set_signature_share_byte(byteIndex, shareIndex, sigByte);
-            wasmExports.set_share_indexes(shareIndex, sigIndex);
+    this.set_mc_bytes = function (mcBytes) {
+        // set master commitment in wasm
+        for (let i = 0; i < mcBytes.length; i++) {
+            const v = mcBytes[i]
+            wasmExports.set_mc_byte(i, v)
         }
     }
-    // combine the signatures
-    wasmExports.combine_signature_shares(sigshares.length, mcBytes.length);
-    // read the combined signature
-    let sigBytes = [];
-    for (let i=0; i<sigLen; i++) {
-        let sigByte = wasmExports.get_sig_byte(i);
-        sigBytes.push(sigByte);
-    }
-    return sigBytes;
-}
 
-// s is secret key share bytes
-// ct is ciphertext bytes
-// uiShareIndex is the index of the share as it appears in the UI
-// derivedShareIndex is the index of the share when derived from the poly
-this.create_decryption_share = function(s, uiShareIndex, derivedShareIndex, ct) {
-    // set ct bytes
-    for (let i=0; i<ct.length; i++) {
-        wasmExports.set_ct_byte(i, ct[i]);
+    this.get_skshare = function () {
+        const skshareBytes = []
+        for (let i = 0; i < skLen; i++) {
+            const skshareByte = wasmExports.get_skshare_byte(i)
+            skshareBytes.push(skshareByte)
+        }
+        return skshareBytes
     }
-    // set secret key share
-    for (let i=0; i<s.length; i++) {
-        wasmExports.set_sk_byte(i, s[i]);
-    }
-    // create decryption share
-    let dshareSize = wasmExports.create_decryption_share(uiShareIndex, ct.length);
-    // set derivedShareIndex
-    wasmExports.set_share_indexes(uiShareIndex, derivedShareIndex);
-    // read decryption share
-    let dshareBytes = [];
-    for (let i=0; i<decryptionShareLen; i++) {
-        let dshareByte = wasmExports.get_decryption_shares_byte(i, uiShareIndex);
-        dshareBytes.push(dshareByte);
-    }
-    return dshareBytes;
-}
 
-// Assumes master commitment is already set.
-// Assumes create_decryption_share is already called for all shares,
-// Which means ciphertext is already set
-// and decryption shares are already set
-// and share_indexes is already set
-this.combine_decryption_shares = function(totalShares, mcSize, ctSize) {
-    // combine decryption shares
-    let msgSize = wasmExports.combine_decryption_shares(totalShares, mcSize, ctSize);
-    // read msg
-    let msgBytes = [];
-    for (let i=0; i<msgSize; i++) {
-        let msgByte = wasmExports.get_msg_byte(i);
-        msgBytes.push(msgByte);
+    this.get_pkshare = function () {
+        const pkshareBytes = []
+        for (let i = 0; i < pkLen; i++) {
+            const pkshareByte = wasmExports.get_pkshare_byte(i)
+            pkshareBytes.push(pkshareByte)
+        }
+        return pkshareBytes
     }
-    return msgBytes;
-}
 
-})();
+    this.combine_signatures = function (mcBytes, sigshares) {
+        // set master commitment in wasm
+        wasmBlsSdkHelpers.set_mc_bytes(mcBytes)
+        // set the signature shares
+        for (let shareIndex = 0; shareIndex < sigshares.length; shareIndex++) {
+            const share = sigshares[shareIndex]
+            const sigHex = share.shareHex
+            const sigBytes = hexToUint8Array(sigHex)
+            const sigIndex = share.shareIndex
+            for (let byteIndex = 0; byteIndex < sigBytes.length; byteIndex++) {
+                const sigByte = sigBytes[byteIndex]
+                // NB shareIndex is used instead of sigIndex so we can interate
+                // over both
+                // SHARE_INDEXES[i]
+                // and
+                // SIGNATURE_SHARE_BYTES[i*96:(i+1)*96]
+                wasmExports.set_signature_share_byte(byteIndex, shareIndex, sigByte)
+                wasmExports.set_share_indexes(shareIndex, sigIndex)
+            }
+        }
+        // combine the signatures
+        wasmExports.combine_signature_shares(sigshares.length, mcBytes.length)
+        // read the combined signature
+        const sigBytes = []
+        for (let i = 0; i < sigLen; i++) {
+            const sigByte = wasmExports.get_sig_byte(i)
+            sigBytes.push(sigByte)
+        }
+        return sigBytes
+    }
+
+    // s is secret key share bytes
+    // ct is ciphertext bytes
+    // uiShareIndex is the index of the share as it appears in the UI
+    // derivedShareIndex is the index of the share when derived from the poly
+    this.create_decryption_share = function (s, uiShareIndex, derivedShareIndex, ct) {
+        // set ct bytes
+        for (let i = 0; i < ct.length; i++) {
+            wasmExports.set_ct_byte(i, ct[i])
+        }
+        // set secret key share
+        for (let i = 0; i < s.length; i++) {
+            wasmExports.set_sk_byte(i, s[i])
+        }
+        // create decryption share
+        const dshareSize = wasmExports.create_decryption_share(uiShareIndex, ct.length)
+        // set derivedShareIndex
+        wasmExports.set_share_indexes(uiShareIndex, derivedShareIndex)
+        // read decryption share
+        const dshareBytes = []
+        for (let i = 0; i < decryptionShareLen; i++) {
+            const dshareByte = wasmExports.get_decryption_shares_byte(i, uiShareIndex)
+            dshareBytes.push(dshareByte)
+        }
+        return dshareBytes
+    }
+
+    // Assumes master commitment is already set.
+    // Assumes create_decryption_share is already called for all shares,
+    // Which means ciphertext is already set
+    // and decryption shares are already set
+    // and share_indexes is already set
+    this.combine_decryption_shares = function (totalShares, mcSize, ctSize) {
+        // combine decryption shares
+        const msgSize = wasmExports.combine_decryption_shares(totalShares, mcSize, ctSize)
+        // read msg
+        const msgBytes = []
+        for (let i = 0; i < msgSize; i++) {
+            const msgByte = wasmExports.get_msg_byte(i)
+            msgBytes.push(msgByte)
+        }
+        return msgBytes
+    }
+}()
 
 
 
