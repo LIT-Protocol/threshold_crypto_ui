@@ -32,7 +32,7 @@ async function load(module, imports) {
         }
 }
 
-async function init() {
+export async function initWasmBlsSdk() {
 var b = "";
 %s
     var input = pako.inflate(base64ToUint8Array(b));
@@ -46,10 +46,6 @@ var b = "";
     return wasm;
 }
 
-
-        init().then((exports) => {
-            window.wasmExports = exports;
-        });
 """
 
 def convertWasmFile(location):
