@@ -112,12 +112,11 @@ page = ""
 # Script tags
 
 scripts = [
-    'js/constants.js',
-    'js/convert.js',
-    'js/encoding.js',
-    'js/ordered_share.js',
-    'js/pako.min.js',
-    'js/wasm_helpers.js'
+    'js-sdk-only/constants.js',
+    'js-sdk-only/convert.js',
+    'js-sdk-only/encoding.js',
+    'js-sdk-only/ordered_share.js',
+    'js-sdk-only/wasm_helpers.js'
 ]
 
 for script in scripts:
