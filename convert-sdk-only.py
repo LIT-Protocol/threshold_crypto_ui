@@ -16,34 +16,48 @@ import zlib
 # https://dzone.com/articles/webassembly-wasmfiddle-and-inline-webassembly-modu
 # and
 # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Memory
+# htmlPartTemplate = """
+
+# let wasm;
+
+# async function load(module, imports) {
+
+#         const instance = await WebAssembly.instantiate(module, imports);
+
+#         if (instance instanceof WebAssembly.Instance) {
+#             return { instance, module };
+
+#         } else {
+#             return instance;
+#         }
+# }
+
+# export async function initWasmBlsSdk() {
+# var b = "";
+# %s
+#     var input = pako.inflate(base64ToUint8Array(b));
+#     const imports = {};
+
+#     const { instance, module } = await load(await input, imports);
+
+#     wasm = instance.exports;
+#     initWasmBlsSdk.__wbindgen_wasm_module = module;
+
+#     return wasm;
+# }
+
+# """
+
 htmlPartTemplate = """
 
-let wasm;
 
-async function load(module, imports) {
 
-        const instance = await WebAssembly.instantiate(module, imports);
-
-        if (instance instanceof WebAssembly.Instance) {
-            return { instance, module };
-
-        } else {
-            return instance;
-        }
-}
 
 export async function initWasmBlsSdk() {
-var b = "";
+var b = "data:application/octet-stream;base64,";
 %s
-    var input = pako.inflate(base64ToUint8Array(b));
-    const imports = {};
 
-    const { instance, module } = await load(await input, imports);
-
-    wasm = instance.exports;
-    initWasmBlsSdk.__wbindgen_wasm_module = module;
-
-    return wasm;
+    return init(b);
 }
 
 """
@@ -57,8 +71,8 @@ def convertWasmFile(location):
     finally:
         f.close()
     # convert wasm binary to js
-    compressed = compress(fileBytes)
-    binaryArrStr = convertBytesToBase64Str(compressed)
+    # compressed = compress(fileBytes)
+    binaryArrStr = convertBytesToBase64Str(fileBytes)
     htmlPart = htmlPartTemplate % binaryArrStr
     # save to js file
     newLocation = location + ".html.part"
@@ -101,21 +115,20 @@ for root, dirs, files in os.walk(pkgDir):
 # It removes script and style tags and replaces with the file content.
 # It also adds wasm content.
 
-htmlRootDir = "html"
 
 page = ""
 
 # Script tags
 
 scripts = [
-    'js-sdk-only/constants.js',
-    'js-sdk-only/convert.js',
-    'js-sdk-only/wasm_helpers.js'
+    'html/js-sdk-only/constants.js',
+    'html/js-sdk-only/convert.js',
+    'html/js-sdk-only/wasm_helpers.js',
+    'pkg/threshold_crypto_wasm_bridge.js'
 ]
 
 for script in scripts:
-    filename = os.path.join(htmlRootDir, script)
-    s = open(filename, "r", encoding="utf-8")
+    s = open(script, "r", encoding="utf-8")
     scriptContent = s.read()
     s.close()
     page += scriptContent + "\n"

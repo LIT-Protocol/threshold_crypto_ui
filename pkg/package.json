@@ -7,7 +7,6 @@
   "files": [
     "threshold_crypto_wasm_bridge_bg.wasm",
     "threshold_crypto_wasm_bridge.js",
-    "threshold_crypto_wasm_bridge_bg.js",
     "threshold_crypto_wasm_bridge.d.ts"
   ],
   "module": "threshold_crypto_wasm_bridge.js",
