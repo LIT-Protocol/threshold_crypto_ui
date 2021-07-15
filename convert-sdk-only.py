@@ -114,8 +114,6 @@ page = ""
 scripts = [
     'js-sdk-only/constants.js',
     'js-sdk-only/convert.js',
-    'js-sdk-only/encoding.js',
-    'js-sdk-only/ordered_share.js',
     'js-sdk-only/wasm_helpers.js'
 ]
 
