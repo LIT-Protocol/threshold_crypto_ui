@@ -54,10 +54,11 @@ htmlPartTemplate = """
 
 
 export async function initWasmBlsSdk() {
-var b = "data:application/octet-stream;base64,";
+var b = "";
 %s
 
-    return init(b);
+    var input = pako.inflate(base64ToUint8Array(b));
+    return init(input);
 }
 
 """
@@ -71,8 +72,8 @@ def convertWasmFile(location):
     finally:
         f.close()
     # convert wasm binary to js
-    # compressed = compress(fileBytes)
-    binaryArrStr = convertBytesToBase64Str(fileBytes)
+    compressed = compress(fileBytes)
+    binaryArrStr = convertBytesToBase64Str(compressed)
     htmlPart = htmlPartTemplate % binaryArrStr
     # save to js file
     newLocation = location + ".html.part"
@@ -120,6 +121,20 @@ page = ""
 
 # Script tags
 
+to_remove_from_wasm_bridge = [
+"""
+    if (typeof input === 'undefined') {
+        input = new URL('threshold_crypto_wasm_bridge_bg.wasm', import.meta.url);
+    }
+""",
+"""
+    if (typeof input === 'string' || (typeof Request === 'function' && input instanceof Request) || (typeof URL === 'function' && input instanceof URL)) {
+        input = fetch(input);
+    }
+"""
+
+]
+
 scripts = [
     'html/js-sdk-only/constants.js',
     'html/js-sdk-only/convert.js',
@@ -131,6 +146,10 @@ for script in scripts:
     s = open(script, "r", encoding="utf-8")
     scriptContent = s.read()
     s.close()
+    if script == 'pkg/threshold_crypto_wasm_bridge.js':
+        for to_remove in to_remove_from_wasm_bridge:
+            scriptContent = scriptContent.replace(to_remove, '')
+
     page += scriptContent + "\n"
 
 
