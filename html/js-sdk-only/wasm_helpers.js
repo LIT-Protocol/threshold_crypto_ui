@@ -290,6 +290,6 @@ export const wasmBlsSdkHelpers = new function () {
       const msgByte = wasmExports.get_msg_byte(i)
       msgBytes.push(msgByte)
     }
-    return msgBytes
+    return Uint8Array.from(msgBytes)
   }
 }()

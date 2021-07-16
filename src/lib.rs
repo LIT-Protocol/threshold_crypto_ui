@@ -672,13 +672,13 @@ pub fn combine_decryption_shares(
     commitment_size: usize,
     ct_size: usize,
 ) -> usize {
-    console::log_1(
-        &format!(
-            "combine_decryption_shares({},{},{})",
-            total_decryption_shares, commitment_size, ct_size
-        )
-        .into(),
-    );
+    // console::log_1(
+    //     &format!(
+    //         "combine_decryption_shares({},{},{})",
+    //         total_decryption_shares, commitment_size, ct_size
+    //     )
+    //     .into(),
+    // );
     // read each decryption share
     let mut dshares = BTreeMap::new();
     for share_index in 0..total_decryption_shares {
@@ -714,11 +714,11 @@ pub fn combine_decryption_shares(
     let ct: Ciphertext = bincode::deserialize(&bincode_ct_vec).unwrap();
     // Combine decryption shares.
     // let pkset = PublicKeySet::from(mc);
-    console::log_1(&format!("dshares: {:?}", dshares).into());
-    console::log_1(&format!("ct: {:?}", ct).into());
-    console::log_1(&format!("pkset: {:?}", pkset).into());
+    // console::log_1(&format!("dshares: {:?}", dshares).into());
+    // console::log_1(&format!("ct: {:?}", ct).into());
+    // console::log_1(&format!("pkset: {:?}", pkset).into());
     let msg = pkset.decrypt(&dshares, &ct).unwrap();
-    console::log_1(&format!("decrypted message is {:?}", msg).into());
+    // console::log_1(&format!("decrypted message is {:?}", msg).into());
     // set message bytes
     for i in 0..msg.len() {
         set_msg_byte(i, msg[i]);
