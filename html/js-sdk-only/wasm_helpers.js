@@ -76,6 +76,8 @@ export const wasmBlsSdkHelpers = new function () {
       }
       verified = wasmExports.verify(m.length)
     } catch (e) {
+      console.log('error verifying sig:')
+      console.log(e)
       isWasming = false
     }
     isWasming = false

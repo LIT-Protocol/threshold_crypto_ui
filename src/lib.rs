@@ -361,6 +361,23 @@ pub fn verify(msg_size: usize) -> bool {
     for i in 0..msg_size {
         msg.push(get_msg_byte(i));
     }
+
+    // console::log_1(
+    //     &format!(
+    //         "running verify({:?},{:?})",
+    //         sig, msg
+    //     )
+    //     .into(),
+    // );
+
+    // console::log_1(
+    //     &format!(
+    //         "pubkey bytes are {:?}",
+    //         pk.to_bytes()
+    //     )
+    //     .into(),
+    // );
+
     return pk.verify(&sig, msg);
 }
 

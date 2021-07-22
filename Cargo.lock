@@ -20,8 +20,6 @@ dependencies = [
 [[package]]
 name = "blst"
 version = "0.3.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "04dcd2da2e8ff774aaa0c6ac76d0fecd9d98cb5767682c101895c4858e05b833"
 dependencies = [
  "cc",
  "glob",
@@ -31,9 +29,7 @@ dependencies = [
 
 [[package]]
 name = "blsttc"
-version = "2.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4e2cf27c82f62fd876518ea11d7a29120a410efb04d8b291cbec2ac0151d8dbd"
+version = "2.0.2"
 dependencies = [
  "blst",
  "byteorder",
@@ -70,9 +66,25 @@ checksum = "4a72c244c1ff497a746a7e1fb3d14bd08420ecda70c8f25c7112f2781652d787"
 
 [[package]]
 name = "cfg-if"
+version = "0.1.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4785bdd1c96b2a846b2bd7cc02e86b6b3dbf14e7e53446c4f54c92a361040822"
+
+[[package]]
+name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
+
+[[package]]
+name = "console_error_panic_hook"
+version = "0.1.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b8d976903543e0c48546a91908f21588a680a8c8f984df9a5d69feccb2b2a211"
+dependencies = [
+ "cfg-if 0.1.10",
+ "wasm-bindgen",
+]
 
 [[package]]
 name = "crunchy"
@@ -111,7 +123,7 @@ version = "0.1.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8fc3cb4d91f53b50155bdcfd23f6a4c39ae1969c2ae85982b135750cccaf5fce"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "libc",
  "wasi",
 ]
@@ -175,7 +187,7 @@ version = "0.4.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "51b9bbe6c47d51fc3e1a9b945965946b4c44142ab8792c50835a980d362c2710"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
 ]
 
 [[package]]
@@ -382,6 +394,7 @@ version = "0.0.1"
 dependencies = [
  "bincode",
  "blsttc",
+ "console_error_panic_hook",
  "rand_core",
  "serde",
  "wasm-bindgen",
@@ -415,7 +428,7 @@ version = "0.2.74"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d54ee1d4ed486f78874278e63e4069fc1ab9f6a18ca492076ffb90c5eb2997fd"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "wasm-bindgen-macro",
 ]
 
