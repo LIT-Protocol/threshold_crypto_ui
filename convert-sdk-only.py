@@ -63,6 +63,7 @@ var b = "";
 
 """
 
+
 def convertWasmFile(location):
     # read the wasm binary
     f = open(location, "rb")
@@ -82,8 +83,10 @@ def convertWasmFile(location):
     f.close()
     print("wasm converted to html.part file: %s" % newLocation)
 
+
 def compress(fileBytes):
     return zlib.compress(fileBytes, level=9)
+
 
 def convertBytesToBase64Str(fileBytes):
     s = base64.b64encode(fileBytes).decode('ascii')
@@ -122,12 +125,12 @@ page = ""
 # Script tags
 
 to_remove_from_wasm_bridge = [
-"""
+    """
     if (typeof input === 'undefined') {
         input = new URL('threshold_crypto_wasm_bridge_bg.wasm', import.meta.url);
     }
 """,
-"""
+    """
     if (typeof input === 'string' || (typeof Request === 'function' && input instanceof Request) || (typeof URL === 'function' && input instanceof URL)) {
         input = fetch(input);
     }
@@ -149,10 +152,10 @@ for script in scripts:
     if script == 'pkg/threshold_crypto_wasm_bridge.js':
         for to_remove in to_remove_from_wasm_bridge:
             scriptContent = scriptContent.replace(to_remove, '')
+        # make methods private in JSdoc
+        scriptContent = scriptContent.replace("/**", "/**\n* @private")
 
     page += scriptContent + "\n"
-
-
 
 
 # wasm tag
