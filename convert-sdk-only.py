@@ -16,37 +16,53 @@ import zlib
 # https://dzone.com/articles/webassembly-wasmfiddle-and-inline-webassembly-modu
 # and
 # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Memory
+# htmlPartTemplate = """
+
+# let wasm;
+
+# async function load(module, imports) {
+
+#         const instance = await WebAssembly.instantiate(module, imports);
+
+#         if (instance instanceof WebAssembly.Instance) {
+#             return { instance, module };
+
+#         } else {
+#             return instance;
+#         }
+# }
+
+# export async function initWasmBlsSdk() {
+# var b = "";
+# %s
+#     var input = pako.inflate(base64ToUint8Array(b));
+#     const imports = {};
+
+#     const { instance, module } = await load(await input, imports);
+
+#     wasm = instance.exports;
+#     initWasmBlsSdk.__wbindgen_wasm_module = module;
+
+#     return wasm;
+# }
+
+# """
+
 htmlPartTemplate = """
 
-let wasm;
 
-async function load(module, imports) {
 
-        const instance = await WebAssembly.instantiate(module, imports);
-
-        if (instance instanceof WebAssembly.Instance) {
-            return { instance, module };
-
-        } else {
-            return instance;
-        }
-}
 
 export async function initWasmBlsSdk() {
 var b = "";
 %s
+
     var input = pako.inflate(base64ToUint8Array(b));
-    const imports = {};
-
-    const { instance, module } = await load(await input, imports);
-
-    wasm = instance.exports;
-    initWasmBlsSdk.__wbindgen_wasm_module = module;
-
-    return wasm;
+    return init(input);
 }
 
 """
+
 
 def convertWasmFile(location):
     # read the wasm binary
@@ -67,8 +83,10 @@ def convertWasmFile(location):
     f.close()
     print("wasm converted to html.part file: %s" % newLocation)
 
+
 def compress(fileBytes):
     return zlib.compress(fileBytes, level=9)
+
 
 def convertBytesToBase64Str(fileBytes):
     s = base64.b64encode(fileBytes).decode('ascii')
@@ -101,26 +119,43 @@ for root, dirs, files in os.walk(pkgDir):
 # It removes script and style tags and replaces with the file content.
 # It also adds wasm content.
 
-htmlRootDir = "html"
 
 page = ""
 
 # Script tags
 
+to_remove_from_wasm_bridge = [
+    """
+    if (typeof input === 'undefined') {
+        input = new URL('threshold_crypto_wasm_bridge_bg.wasm', import.meta.url);
+    }
+""",
+    """
+    if (typeof input === 'string' || (typeof Request === 'function' && input instanceof Request) || (typeof URL === 'function' && input instanceof URL)) {
+        input = fetch(input);
+    }
+"""
+
+]
+
 scripts = [
-    'js-sdk-only/constants.js',
-    'js-sdk-only/convert.js',
-    'js-sdk-only/wasm_helpers.js'
+    'html/js-sdk-only/constants.js',
+    'html/js-sdk-only/convert.js',
+    'html/js-sdk-only/wasm_helpers.js',
+    'pkg/threshold_crypto_wasm_bridge.js'
 ]
 
 for script in scripts:
-    filename = os.path.join(htmlRootDir, script)
-    s = open(filename, "r", encoding="utf-8")
+    s = open(script, "r", encoding="utf-8")
     scriptContent = s.read()
     s.close()
+    if script == 'pkg/threshold_crypto_wasm_bridge.js':
+        for to_remove in to_remove_from_wasm_bridge:
+            scriptContent = scriptContent.replace(to_remove, '')
+        # make methods private in JSdoc
+        scriptContent = scriptContent.replace("/**", "/**\n* @private")
+
     page += scriptContent + "\n"
-
-
 
 
 # wasm tag
