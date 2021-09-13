@@ -285,7 +285,7 @@ export const wasmBlsSdkHelpers = new function () {
       isWasming = false
     }
     isWasming = false
-    return sigBytes
+    return Uint8Array.from(sigBytes)
   }
 
   // p is public key uint8array
@@ -314,7 +314,7 @@ export const wasmBlsSdkHelpers = new function () {
       isWasming = false
     }
     isWasming = false
-    return verified
+    return Uint8Array.from(verified)
   }
 
   this.set_rng_values = function () {
@@ -385,7 +385,7 @@ export const wasmBlsSdkHelpers = new function () {
       isWasming = false
     }
     isWasming = false
-    return msgBytes
+    return Uint8Array.from(msgBytes)
   }
 
   this.generate_poly = function (threshold) {
@@ -482,7 +482,7 @@ export const wasmBlsSdkHelpers = new function () {
       const sigByte = window.wasmExports.get_sig_byte(i)
       sigBytes.push(sigByte)
     }
-    return sigBytes
+    return Uint8Array.from(sigBytes)
   }
 
   // s is secret key share bytes
@@ -508,7 +508,7 @@ export const wasmBlsSdkHelpers = new function () {
       const dshareByte = window.wasmExports.get_decryption_shares_byte(i, uiShareIndex)
       dshareBytes.push(dshareByte)
     }
-    return dshareBytes
+    return Uint8Array.from(dshareBytes)
   }
 
   // Assumes master commitment is already set.
