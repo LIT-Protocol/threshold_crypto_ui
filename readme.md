@@ -2,6 +2,10 @@
 
 This project was forked to work with the new blsttc library from maidsafe, which utilizes blst instead of threshold_crypto because it's faster.
 
+# how to build for Lit usage
+
+Run ./build.sh
+
 # How to build the project
 
 ```bash
@@ -34,4 +38,3 @@ After every change you will need to rebuild the standalone html file.
 
 Once generated, bls-standalone.html (in the root of the repo) can be double
 clicked to open in your browser.
-
