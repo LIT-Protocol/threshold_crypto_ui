@@ -2,7 +2,16 @@
 
 This project was forked to work with the new blsttc library from maidsafe, which utilizes blst instead of threshold_crypto because it's faster.
 
-# how to build for Lit usage
+# Prerequisite
+
+- Make sure to clone the [blsttc](https://github.com/LIT-Protocol/blsttc) repo to your directory.
+- Update your blsttc version path in `Cargo.toml`
+    - `blsttc = { version = "2.0.2", path="./blsttc" }`
+- Make sure you have installed `clang`
+    - `sudo apt-get install clang`
+- Make sure you have installed [emscripten](https://emscripten.org/docs/getting_started/downloads.html)
+
+# How to build for Lit usage
 
 Run ./build.sh
 
