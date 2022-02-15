@@ -282,6 +282,8 @@ export const wasmBlsSdkHelpers = new (function () {
         sigBytes.push(sigByte);
       }
     } catch (e) {
+      console.log("error signing in bls-sdk.js:");
+      console.log(e);
       isWasming = false;
     }
     isWasming = false;
@@ -309,7 +311,7 @@ export const wasmBlsSdkHelpers = new (function () {
       }
       verified = window.wasmExports.verify(m.length);
     } catch (e) {
-      console.log("error verifying sig:");
+      console.log("error verifying sig in bls-sdk.js:");
       console.log(e);
       isWasming = false;
     }
@@ -357,6 +359,8 @@ export const wasmBlsSdkHelpers = new (function () {
         ctBytes.push(ctByte);
       }
     } catch (e) {
+      console.log("error encrypting in bls-sdk.js:");
+      console.log(e);
       isWasming = false;
     }
     isWasming = false;
@@ -384,6 +388,8 @@ export const wasmBlsSdkHelpers = new (function () {
         msgBytes.push(msgByte);
       }
     } catch (e) {
+      console.log("error decrypting in bls-sdk.js:");
+      console.log(e);
       isWasming = false;
     }
     isWasming = false;
