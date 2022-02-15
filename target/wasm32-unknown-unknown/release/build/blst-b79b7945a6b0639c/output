@@ -1,0 +1,62 @@
+cargo:rustc-cfg=feature="no-threads"
+Using blst source directory /home/chris/.cargo/registry/src/github.com-1ecc6299db9ec823/blst-0.3.7/blst
+cargo:rerun-if-changed=/home/chris/.cargo/registry/src/github.com-1ecc6299db9ec823/blst-0.3.7/blst/src
+Compiling in portable mode without ISA extensions
+TARGET = Some("wasm32-unknown-unknown")
+HOST = Some("x86_64-unknown-linux-gnu")
+CC_wasm32-unknown-unknown = None
+CC_wasm32_unknown_unknown = None
+TARGET_CC = None
+CC = Some("emcc")
+CFLAGS_wasm32-unknown-unknown = None
+CFLAGS_wasm32_unknown_unknown = None
+TARGET_CFLAGS = None
+CFLAGS = None
+CRATE_CC_NO_DEFAULTS = None
+DEBUG = Some("true")
+CARGO_CFG_TARGET_FEATURE = None
+CC_wasm32-unknown-unknown = None
+CC_wasm32_unknown_unknown = None
+TARGET_CC = None
+CC = Some("emcc")
+CFLAGS_wasm32-unknown-unknown = None
+CFLAGS_wasm32_unknown_unknown = None
+TARGET_CFLAGS = None
+CFLAGS = None
+CRATE_CC_NO_DEFAULTS = None
+CARGO_CFG_TARGET_FEATURE = None
+CC_wasm32-unknown-unknown = None
+CC_wasm32_unknown_unknown = None
+TARGET_CC = None
+CC = Some("emcc")
+CFLAGS_wasm32-unknown-unknown = None
+CFLAGS_wasm32_unknown_unknown = None
+TARGET_CFLAGS = None
+CFLAGS = None
+CRATE_CC_NO_DEFAULTS = None
+CARGO_CFG_TARGET_FEATURE = None
+CC_wasm32-unknown-unknown = None
+CC_wasm32_unknown_unknown = None
+TARGET_CC = None
+CC = Some("emcc")
+CFLAGS_wasm32-unknown-unknown = None
+CFLAGS_wasm32_unknown_unknown = None
+TARGET_CFLAGS = None
+CFLAGS = None
+CRATE_CC_NO_DEFAULTS = None
+CARGO_CFG_TARGET_FEATURE = None
+running: "emcc" "-O2" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-fno-omit-frame-pointer" "-Wall" "-Wextra" "-fno-builtin" "-Wno-unused-command-line-argument" "-D__BLST_NO_ASM__" "-D__BLST_PORTABLE__" "-o" "/home/chris/threshold_crypto_ui/target/wasm32-unknown-unknown/release/build/blst-b79b7945a6b0639c/out/server.o" "-c" "/home/chris/.cargo/registry/src/github.com-1ecc6299db9ec823/blst-0.3.7/blst/src/server.c"
+exit status: 0
+AR_wasm32-unknown-unknown = None
+AR_wasm32_unknown_unknown = None
+TARGET_AR = None
+AR = None
+CROSS_COMPILE = None
+running: "ar" "cq" "/home/chris/threshold_crypto_ui/target/wasm32-unknown-unknown/release/build/blst-b79b7945a6b0639c/out/libblst.a" "/home/chris/threshold_crypto_ui/target/wasm32-unknown-unknown/release/build/blst-b79b7945a6b0639c/out/server.o"
+exit status: 0
+running: "ar" "s" "/home/chris/threshold_crypto_ui/target/wasm32-unknown-unknown/release/build/blst-b79b7945a6b0639c/out/libblst.a"
+exit status: 0
+cargo:rustc-link-lib=static=blst
+cargo:rustc-link-search=native=/home/chris/threshold_crypto_ui/target/wasm32-unknown-unknown/release/build/blst-b79b7945a6b0639c/out
+cargo:BINDINGS=/home/chris/.cargo/registry/src/github.com-1ecc6299db9ec823/blst-0.3.7/blst/bindings
+cargo:C_SRC=/home/chris/.cargo/registry/src/github.com-1ecc6299db9ec823/blst-0.3.7/blst/src

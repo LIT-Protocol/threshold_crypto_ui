@@ -1,0 +1,1 @@
+{"rustc":10927557477079562347,"features":"","target":0,"profile":0,"path":0,"deps":[[10863176069308900742,"build_script_build",false,1618451836842640571]],"local":[{"RerunIfChanged":{"output":"wasm32-unknown-unknown/release/build/blst-b79b7945a6b0639c/output","paths":["blst/src"]}}],"rustflags":[],"metadata":0,"config":0,"compile_kind":0}
