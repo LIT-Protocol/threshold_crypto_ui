@@ -10,13 +10,13 @@ export const wasmBlsSdkHelpers = new (function () {
     try {
       // set sk bytes
       for (let i = 0; i < s.length; i++) {
-        window.wasmExports.set_sk_byte(i, s[i]);
+        globalThis.wasmExports.set_sk_byte(i, s[i]);
       }
       // convert into pk bytes
-      window.wasmExports.derive_pk_from_sk();
+      globalThis.wasmExports.derive_pk_from_sk();
       // read pk bytes
       for (let i = 0; i < pkLen; i++) {
-        const pkByte = window.wasmExports.get_pk_byte(i);
+        const pkByte = globalThis.wasmExports.get_pk_byte(i);
         pkBytes.push(pkByte);
       }
     } catch (e) {
@@ -35,17 +35,17 @@ export const wasmBlsSdkHelpers = new (function () {
     try {
       // set secret key bytes
       for (let i = 0; i < s.length; i++) {
-        window.wasmExports.set_sk_byte(i, s[i]);
+        globalThis.wasmExports.set_sk_byte(i, s[i]);
       }
       // set message bytes
       for (let i = 0; i < m.length; i++) {
-        window.wasmExports.set_msg_byte(i, m[i]);
+        globalThis.wasmExports.set_msg_byte(i, m[i]);
       }
       // sign message
-      window.wasmExports.sign_msg(m.length);
+      globalThis.wasmExports.sign_msg(m.length);
       // get signature bytes
       for (let i = 0; i < sigLen; i++) {
-        const sigByte = window.wasmExports.get_sig_byte(i);
+        const sigByte = globalThis.wasmExports.get_sig_byte(i);
         sigBytes.push(sigByte);
       }
     } catch (e) {
@@ -66,17 +66,17 @@ export const wasmBlsSdkHelpers = new (function () {
     try {
       // set public key bytes
       for (let i = 0; i < p.length; i++) {
-        window.wasmExports.set_pk_byte(i, p[i]);
+        globalThis.wasmExports.set_pk_byte(i, p[i]);
       }
       // set signature bytes
       for (let i = 0; i < s.length; i++) {
-        window.wasmExports.set_sig_byte(i, s[i]);
+        globalThis.wasmExports.set_sig_byte(i, s[i]);
       }
       // set message bytes
       for (let i = 0; i < m.length; i++) {
-        window.wasmExports.set_msg_byte(i, m[i]);
+        globalThis.wasmExports.set_msg_byte(i, m[i]);
       }
-      verified = window.wasmExports.verify(m.length);
+      verified = globalThis.wasmExports.verify(m.length);
     } catch (e) {
       console.log("error verifying sig in bls-sdk.js:");
       console.log(e);
@@ -87,18 +87,18 @@ export const wasmBlsSdkHelpers = new (function () {
   };
 
   this.set_rng_values = function () {
-    // Warning if no window.crypto available
-    if (!window.crypto) {
-      alert(
-        "Secure randomness not available in this browser, output is insecure."
-      );
+    // Warning if no globalThis.crypto available
+    if (!globalThis.crypto) {
+      const msg = "Secure randomness not available in this browser, output is insecure."
+      alert(msg);
+      console.log(msg)
       return;
     }
-    const RNG_VALUES_SIZE = window.wasmExports.get_rng_values_size();
+    const RNG_VALUES_SIZE = globalThis.wasmExports.get_rng_values_size();
     const rngValues = new Uint32Array(RNG_VALUES_SIZE);
-    window.crypto.getRandomValues(rngValues);
+    globalThis.crypto.getRandomValues(rngValues);
     for (let i = 0; i < rngValues.length; i++) {
-      window.wasmExports.set_rng_value(i, rngValues[i]);
+      globalThis.wasmExports.set_rng_value(i, rngValues[i]);
     }
   };
 
@@ -111,18 +111,18 @@ export const wasmBlsSdkHelpers = new (function () {
       wasmBlsSdkHelpers.set_rng_values();
       // set public key bytes
       for (let i = 0; i < p.length; i++) {
-        window.wasmExports.set_pk_byte(i, p[i]);
+        globalThis.wasmExports.set_pk_byte(i, p[i]);
       }
       // set message bytes
       for (let i = 0; i < m.length; i++) {
-        window.wasmExports.set_msg_byte(i, m[i]);
+        globalThis.wasmExports.set_msg_byte(i, m[i]);
       }
       // generate strong random u64 used by encrypt
       // encrypt the message
-      const ctSize = window.wasmExports.encrypt(m.length);
+      const ctSize = globalThis.wasmExports.encrypt(m.length);
       // get ciphertext bytes
       for (let i = 0; i < ctSize; i++) {
-        const ctByte = window.wasmExports.get_ct_byte(i);
+        const ctByte = globalThis.wasmExports.get_ct_byte(i);
         ctBytes.push(ctByte);
       }
     } catch (e) {
@@ -142,16 +142,16 @@ export const wasmBlsSdkHelpers = new (function () {
     try {
       // set secret key bytes
       for (let i = 0; i < s.length; i++) {
-        window.wasmExports.set_sk_byte(i, s[i]);
+        globalThis.wasmExports.set_sk_byte(i, s[i]);
       }
       // set ciphertext bytes
       for (let i = 0; i < c.length; i++) {
-        window.wasmExports.set_ct_byte(i, c[i]);
+        globalThis.wasmExports.set_ct_byte(i, c[i]);
       }
-      const msgSize = window.wasmExports.decrypt(c.length);
+      const msgSize = globalThis.wasmExports.decrypt(c.length);
       // get message bytes
       for (let i = 0; i < msgSize; i++) {
-        const msgByte = window.wasmExports.get_msg_byte(i);
+        const msgByte = globalThis.wasmExports.get_msg_byte(i);
         msgBytes.push(msgByte);
       }
     } catch (e) {
@@ -166,10 +166,10 @@ export const wasmBlsSdkHelpers = new (function () {
   this.generate_poly = function (threshold) {
     wasmBlsSdkHelpers.set_rng_values();
     const polySize = poly_sizes_by_threshold[threshold];
-    window.wasmExports.generate_poly(threshold);
+    globalThis.wasmExports.generate_poly(threshold);
     const polyBytes = [];
     for (let i = 0; i < polySize; i++) {
-      const polyByte = window.wasmExports.get_poly_byte(i);
+      const polyByte = globalThis.wasmExports.get_poly_byte(i);
       polyBytes.push(polyByte);
     }
     return polyBytes;
@@ -178,7 +178,7 @@ export const wasmBlsSdkHelpers = new (function () {
   this.get_msk_bytes = function () {
     const mskBytes = [];
     for (let i = 0; i < skLen; i++) {
-      const mskByte = window.wasmExports.get_msk_byte(i);
+      const mskByte = globalThis.wasmExports.get_msk_byte(i);
       mskBytes.push(mskByte);
     }
     return mskBytes;
@@ -187,7 +187,7 @@ export const wasmBlsSdkHelpers = new (function () {
   this.get_mpk_bytes = function () {
     const mpkBytes = [];
     for (let i = 0; i < pkLen; i++) {
-      const mpkByte = window.wasmExports.get_mpk_byte(i);
+      const mpkByte = globalThis.wasmExports.get_mpk_byte(i);
       mpkBytes.push(mpkByte);
     }
     return mpkBytes;
@@ -197,7 +197,7 @@ export const wasmBlsSdkHelpers = new (function () {
     const mcBytes = [];
     const mcSize = commitment_sizes_by_threshold[threshold];
     for (let i = 0; i < mcSize; i++) {
-      const mcByte = window.wasmExports.get_mc_byte(i);
+      const mcByte = globalThis.wasmExports.get_mc_byte(i);
       mcBytes.push(mcByte);
     }
     return mcBytes;
@@ -207,14 +207,14 @@ export const wasmBlsSdkHelpers = new (function () {
     // set master commitment in wasm
     for (let i = 0; i < mcBytes.length; i++) {
       const v = mcBytes[i];
-      window.wasmExports.set_mc_byte(i, v);
+      globalThis.wasmExports.set_mc_byte(i, v);
     }
   };
 
   this.get_skshare = function () {
     const skshareBytes = [];
     for (let i = 0; i < skLen; i++) {
-      const skshareByte = window.wasmExports.get_skshare_byte(i);
+      const skshareByte = globalThis.wasmExports.get_skshare_byte(i);
       skshareBytes.push(skshareByte);
     }
     return skshareBytes;
@@ -223,7 +223,7 @@ export const wasmBlsSdkHelpers = new (function () {
   this.get_pkshare = function () {
     const pkshareBytes = [];
     for (let i = 0; i < pkLen; i++) {
-      const pkshareByte = window.wasmExports.get_pkshare_byte(i);
+      const pkshareByte = globalThis.wasmExports.get_pkshare_byte(i);
       pkshareBytes.push(pkshareByte);
     }
     return pkshareBytes;
@@ -245,23 +245,23 @@ export const wasmBlsSdkHelpers = new (function () {
         // SHARE_INDEXES[i]
         // and
         // SIGNATURE_SHARE_BYTES[i*96:(i+1)*96]
-        window.wasmExports.set_signature_share_byte(
+        globalThis.wasmExports.set_signature_share_byte(
           byteIndex,
           shareIndex,
           sigByte
         );
-        window.wasmExports.set_share_indexes(shareIndex, sigIndex);
+        globalThis.wasmExports.set_share_indexes(shareIndex, sigIndex);
       }
     }
     // combine the signatures
-    window.wasmExports.combine_signature_shares(
+    globalThis.wasmExports.combine_signature_shares(
       sigshares.length,
       mcBytes.length
     );
     // read the combined signature
     const sigBytes = [];
     for (let i = 0; i < sigLen; i++) {
-      const sigByte = window.wasmExports.get_sig_byte(i);
+      const sigByte = globalThis.wasmExports.get_sig_byte(i);
       sigBytes.push(sigByte);
     }
     return Uint8Array.from(sigBytes);
@@ -279,23 +279,23 @@ export const wasmBlsSdkHelpers = new (function () {
   ) {
     // set ct bytes
     for (let i = 0; i < ct.length; i++) {
-      window.wasmExports.set_ct_byte(i, ct[i]);
+      globalThis.wasmExports.set_ct_byte(i, ct[i]);
     }
     // set secret key share
     for (let i = 0; i < s.length; i++) {
-      window.wasmExports.set_sk_byte(i, s[i]);
+      globalThis.wasmExports.set_sk_byte(i, s[i]);
     }
     // create decryption share
-    const dshareSize = window.wasmExports.create_decryption_share(
+    const dshareSize = globalThis.wasmExports.create_decryption_share(
       uiShareIndex,
       ct.length
     );
     // set derivedShareIndex
-    window.wasmExports.set_share_indexes(uiShareIndex, derivedShareIndex);
+    globalThis.wasmExports.set_share_indexes(uiShareIndex, derivedShareIndex);
     // read decryption share
     const dshareBytes = [];
     for (let i = 0; i < decryptionShareLen; i++) {
-      const dshareByte = window.wasmExports.get_decryption_shares_byte(
+      const dshareByte = globalThis.wasmExports.get_decryption_shares_byte(
         i,
         uiShareIndex
       );
@@ -311,7 +311,7 @@ export const wasmBlsSdkHelpers = new (function () {
   // and share_indexes is already set
   this.combine_decryption_shares = function (totalShares, mcSize, ctSize) {
     // combine decryption shares
-    const msgSize = window.wasmExports.combine_decryption_shares(
+    const msgSize = globalThis.wasmExports.combine_decryption_shares(
       totalShares,
       mcSize,
       ctSize
@@ -319,7 +319,7 @@ export const wasmBlsSdkHelpers = new (function () {
     // read msg
     const msgBytes = [];
     for (let i = 0; i < msgSize; i++) {
-      const msgByte = window.wasmExports.get_msg_byte(i);
+      const msgByte = globalThis.wasmExports.get_msg_byte(i);
       msgBytes.push(msgByte);
     }
     return Uint8Array.from(msgBytes);
