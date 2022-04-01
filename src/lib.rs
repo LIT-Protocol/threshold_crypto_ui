@@ -17,8 +17,8 @@ const DECRYPTION_SHARE_SIZE: usize = 48;
 
 // DKG constants
 const MAX_NODES: usize = 10;
-const MAX_ROW_SIZE: usize = 360;
-const MAX_COMMITMENT_SIZE: usize = 536;
+const MAX_ROW_SIZE: usize = 3240;
+const MAX_COMMITMENT_SIZE: usize = 4856;
 const MAX_SHARES: usize = MAX_NODES * MAX_NODES;
 const ROW_BYTES: usize = MAX_ROW_SIZE * MAX_SHARES;
 const BIVAR_COMMITMENTS_SIZE: usize = MAX_COMMITMENT_SIZE * MAX_NODES;
@@ -43,12 +43,12 @@ static mut RNG_VALUES: [u32; RNG_VALUES_SIZE] = [0; RNG_VALUES_SIZE];
 static mut RNG_INDEX: usize = 0;
 static mut RNG_NEXT_COUNT: usize = 0;
 // Poly which can be converted into SecretKeySet
-// Threshold of 10 gives poly size of 360 bytes when serialized
-// Threshold of 10 gives commitment size of 536 bytes when serialized
-static mut POLY_BYTES: [u8; 360] = [0; 360];
+// Threshold of 100 gives poly size of 3240 bytes when serialized
+// Threshold of 100 gives commitment size of 536 bytes when serialized
+static mut POLY_BYTES: [u8; 3240] = [0; 3240];
 static mut MSK_BYTES: [u8; SK_SIZE] = [0; SK_SIZE];
 static mut MPK_BYTES: [u8; PK_SIZE] = [0; PK_SIZE];
-static mut MC_BYTES: [u8; 536] = [0; 536];
+static mut MC_BYTES: [u8; 4856] = [0; 4856];
 static mut SKSHARE_BYTES: [u8; SK_SIZE] = [0; SK_SIZE];
 static mut PKSHARE_BYTES: [u8; PK_SIZE] = [0; PK_SIZE];
 // DKG variables
