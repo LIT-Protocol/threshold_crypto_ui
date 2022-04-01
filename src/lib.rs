@@ -16,7 +16,7 @@ const SIG_SIZE: usize = 96;
 const DECRYPTION_SHARE_SIZE: usize = 48;
 
 // DKG constants
-const MAX_NODES: usize = 10;
+const MAX_NODES: usize = 100;
 const MAX_ROW_SIZE: usize = 3240;
 const MAX_COMMITMENT_SIZE: usize = 4856;
 const MAX_SHARES: usize = MAX_NODES * MAX_NODES;
@@ -52,8 +52,8 @@ static mut MC_BYTES: [u8; 4856] = [0; 4856];
 static mut SKSHARE_BYTES: [u8; SK_SIZE] = [0; SK_SIZE];
 static mut PKSHARE_BYTES: [u8; PK_SIZE] = [0; PK_SIZE];
 // DKG variables
-// Threshold of 10 gives row size of 360 bytes when serialized
-// Threshold of 10 gives commitment size of 3184 bytes when serialized
+// Threshold of 100 gives row size of 3240 bytes when serialized
+// Threshold of 100 gives commitment size of 4856 bytes when serialized
 static mut BIVAR_ROW_BYTES: [u8; ROW_BYTES] = [0; ROW_BYTES];
 static mut BIVAR_COMMITMENTS_BYTES: [u8; BIVAR_COMMITMENTS_SIZE] = [0; BIVAR_COMMITMENTS_SIZE];
 static mut BIVAR_SKS_BYTES: [u8; SK_SIZE * MAX_NODES] = [0; SK_SIZE * MAX_NODES];
