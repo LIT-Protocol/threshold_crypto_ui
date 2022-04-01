@@ -89,9 +89,10 @@ export const wasmBlsSdkHelpers = new (function () {
   this.set_rng_values = function () {
     // Warning if no globalThis.crypto available
     if (!globalThis.crypto) {
-      const msg = "Secure randomness not available in this browser, output is insecure."
+      const msg =
+        "Secure randomness not available in this browser, output is insecure.";
       alert(msg);
-      console.log(msg)
+      console.log(msg);
       return;
     }
     const RNG_VALUES_SIZE = globalThis.wasmExports.get_rng_values_size();
@@ -165,7 +166,7 @@ export const wasmBlsSdkHelpers = new (function () {
 
   this.generate_poly = function (threshold) {
     wasmBlsSdkHelpers.set_rng_values();
-    const polySize = poly_sizes_by_threshold[threshold];
+    const polySize = poly_sizes_by_threshold(threshold);
     globalThis.wasmExports.generate_poly(threshold);
     const polyBytes = [];
     for (let i = 0; i < polySize; i++) {
@@ -195,7 +196,7 @@ export const wasmBlsSdkHelpers = new (function () {
 
   this.get_mc_bytes = function (threshold) {
     const mcBytes = [];
-    const mcSize = commitment_sizes_by_threshold[threshold];
+    const mcSize = commitment_sizes_by_threshold(threshold);
     for (let i = 0; i < mcSize; i++) {
       const mcByte = globalThis.wasmExports.get_mc_byte(i);
       mcBytes.push(mcByte);
