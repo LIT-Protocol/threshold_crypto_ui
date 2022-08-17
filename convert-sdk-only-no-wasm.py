@@ -76,8 +76,10 @@ def injectJsFile(location):
         fileBytes = f.read()
     finally:
         f.close()
-    # interpolate the JS code into the template
-
+    # remove exports from wasm2js output
+    fileBytes = fileBytes.replace(b"export ", b"// export")
+    fileBytes = fileBytes.replace(b"import { __wbindgen_throw } from 'wbg';", b"")
+    # put the js code into a template
     htmlPart = htmlPartTemplate1
     htmlPart += fileBytes.decode("utf-8") 
     htmlPart += htmlPartTemplate2
